@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:videotor/components/index.dart';
+import 'package:videotor/controllers/index.dart';
+import 'package:videotor/services/index.dart';
+
+Future<void> init({bool test: false}) async {
+  WidgetsBinding.instance.addObserver(
+    LifecycleEventHandler(
+      detachedCallBack: () async {
+        //  await SystemNavigator.pop();
+      },
+      resumeCallBack: () async {},
+    ),
+  );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await Get.putAsync(() => DataService().init());
+  await Get.putAsync(() => IAPService().init());
+  Get.putAsync(() => AdService().init());
+  Get.lazyPut(() => EsmaService());
+  Get.lazyPut(() => UIService().init());
+  Get.lazyPut(() => PremiumService().init());
+  Get.lazyPut(() => HomeController());
+}
