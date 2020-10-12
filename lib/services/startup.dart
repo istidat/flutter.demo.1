@@ -18,9 +18,9 @@ Future<void> init({bool test: false}) async {
     DeviceOrientation.portraitUp,
   ]);
   await Get.putAsync(() => DataService().init());
+  await Get.putAsync(() => UserService().init());
   await Get.putAsync(() => IAPService().init());
   Get.putAsync(() => AdService().init());
-  Get.lazyPut(() => EsmaService());
   Get.lazyPut(() => UIService().init());
   Get.lazyPut(() => PremiumService().init());
   Get.lazyPut(() => HomeController());

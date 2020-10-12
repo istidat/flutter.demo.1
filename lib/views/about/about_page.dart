@@ -34,14 +34,14 @@ class AboutPage extends AppPage {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 21.0),
                     child: Text(
-                      'title.about_zakiriyn',
+                      'title.about_app',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: vividTitleColor),
                     ).tr(),
                   ),
                   SizedBox(height: 11.0),
                   Text(
-                    'text.about_zakiriyn',
+                    'text.about_app',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                     textAlign: TextAlign.justify,
                   ).tr()

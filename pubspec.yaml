@@ -31,23 +31,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.8.1 #flutter packages pub run flutter_launcher_icons:main
+  flutter_launcher_icons: ^0.8.1 
 
 flutter_icons:
-  android: "launcher_icon"
   ios: true
-  image_path_android: "assets/images/app-android.png"
-  image_path_ios: "assets/images/app-ios.png"
-  
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+  image_path: "assets/images/app/ios.png"
+#flutter packages pub run flutter_launcher_icons:main
 
-# The following section is specific to Flutter.
 flutter:
   uses-material-design: true
 
   assets:
+    - assets/json/
     - assets/translations/
     - assets/images/
-    - assets/images/resources/
+    - assets/images/app/
+    - assets/images/widgets/
     - assets/fonts/OpenSans/

@@ -63,13 +63,16 @@ class _Form extends StatelessWidget {
                     : null,
                 title: option.title,
                 subtitle: option.subtitle,
-                onTap: () {
+                onTap: () async {
                   if (this.nextForm == null) {
                     Get.back(result: option);
                   } else {
-                    Get.to(this.nextForm(option),
-                            fullscreenDialog: true, preventDuplicates: false)
-                        .then((result) => Get.back(result: result));
+                    final result = await Get.to(
+                      this.nextForm(option),
+                      fullscreenDialog: true,
+                      preventDuplicates: false,
+                    );
+                    Get.back(result: result);
                   }
                 },
               ))

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1064265387879-vl88ge5bcca9gii9hrg5jov5dsmfq98r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1064265387879-vl88ge5bcca9gii9hrg5jov5dsmfq98r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCz6og4N62xImeBBcMFWEZ3rWuBOTrTDr8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1064265387879</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.videotor.ios</string>
+	<key>PROJECT_ID</key>
+	<string>videotor-f4897</string>
+	<key>STORAGE_BUCKET</key>
+	<string>videotor-f4897.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1064265387879:ios:cedad7a694ed2cf40829c2</string>
+	<key>DATABASE_URL</key>
+	<string>https://videotor-f4897.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-7886619676351440~7602391371</string>
+</dict>
+</plist>

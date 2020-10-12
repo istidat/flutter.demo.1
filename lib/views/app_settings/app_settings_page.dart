@@ -166,26 +166,6 @@ class AppSettingsPage extends AppPage<User> {
                       ),
                 onTap: controller.appSettings.value.toggleVibrationMode,
               ),
-              SettingsTile(
-                title: 'title.dhikr_color'.tr(),
-                subtitle: 'title.change_color'.tr(),
-                leading: FaIcon(
-                  FontAwesomeIcons.fillDrip,
-                  color: controller.appSettings.value.currentDhikrColor,
-                ),
-                onTap: () async {
-                  final ColorModel model = await Get.to(
-                    OptionsForm.of(
-                      titleTranslation: 'title.dhikr_color',
-                      options: ColorModel.models,
-                    ),
-                  );
-                  if (model != null) {
-                    controller.appSettings.value
-                        .setCurrentDhikrColor(model.color);
-                  }
-                },
-              ),
             ],
           ),
         ],

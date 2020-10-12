@@ -1,6 +1,6 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:get/get.dart';
-import 'package:videotor/helpers/index.dart';
+import 'package:videotor/services/index.dart';
 
 class AdService extends GetxService {
   Future<AdService> init() async {

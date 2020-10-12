@@ -6,6 +6,7 @@ class FieldInfo<TEntity extends GenericEntity<TEntity>> {
   final String name;
   final String repr;
   final Prop<TEntity, dynamic> prop;
+  final bool newVersion;
   final DataType dataType;
   final bool nullableOnForm;
   final bool displayOnForm;
@@ -17,6 +18,7 @@ class FieldInfo<TEntity extends GenericEntity<TEntity>> {
     @required this.name,
     @required this.repr,
     @required this.prop,
+    this.newVersion: false,
     this.nullableOnForm: false,
     this.dataType: DataType.text,
     this.displayOnForm: true,

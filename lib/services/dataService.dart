@@ -32,14 +32,12 @@ class DataService {
         version: _version,
         onUpgrade: (db, prev, next) async {
           if (next > prev) {
-            _prevDatabase = db;
             await _upgradeDatabase(db, next);
-            _prevDatabase = null;
           }
         },
         onOpen: (db) async {
           if (!kReleaseMode) {
-            //await resetDB(db: db);
+            //await recreateDB(db);
           }
         },
         onCreate: (Database db, int version) async {
@@ -51,8 +49,9 @@ class DataService {
   }
 
   Future<void> _upgradeDatabase(Database db, int nextVersion) async {
+    _prevDatabase = db;
     final repo = repositoryOf<User>();
-    await recreateDB(db, when: (ti) => ti.version == nextVersion);
+    await recreateDB(db, newVersion: (ti) => ti.version == nextVersion);
     final prevDBUser = (await repo.all()).first;
     await recreateDB(db);
     await repo.insert(prevDBUser);
@@ -66,33 +65,31 @@ class DataService {
 
   Future<void> recreateDB(
     Database db, {
-    bool Function(TableInfo) when,
+    bool Function(TableInfo) newVersion,
   }) async {
     await pragmaForeignKeys(on: false, dbRef: db);
-    for (var script
-        in when == null ? regenerateScripts() : regenerateIf(when)) {
+    for (var script in regenerateWhen(newVersion: newVersion)) {
       await db.execute(script);
     }
     await pragmaForeignKeys(on: true, dbRef: db);
   }
 
-  Iterable<String> regenerateScripts() {
+  Iterable<String> regenerateWhen({bool Function(TableInfo) newVersion}) {
     var scriptList = <String>[];
     for (var gen in _generators) {
       final e = gen();
-      scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
-      scriptList.add('${e.tableInfo}');
-    }
-    return scriptList;
-  }
-
-  Iterable<String> regenerateIf(bool Function(TableInfo) newTable) {
-    var scriptList = <String>[];
-    for (var gen in _generators) {
-      final e = gen();
-      if (newTable(e.tableInfo)) {
-        scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
+      final regen = (bool drop) {
+        if (drop) {
+          scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
+        }
         scriptList.add('${e.tableInfo}');
+      };
+      if (newVersion != null) {
+        if (newVersion(e.tableInfo)) {
+          regen(e.tableInfo.altered == false);
+        }
+      } else {
+        regen(true);
       }
     }
     return scriptList;

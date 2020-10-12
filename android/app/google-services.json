@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1064265387879",
+    "firebase_url": "https://videotor-f4897.firebaseio.com",
+    "project_id": "videotor-f4897",
+    "storage_bucket": "videotor-f4897.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064265387879:android:73bddcea4f0b82c90829c2",
+        "android_client_info": {
+          "package_name": "com.videotor.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064265387879-382lt8ng1fnohssmlaq6tgfdk3v3k5p4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5_25YTOFcxRZoEPaQU9H3l5IA9QNkBcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064265387879-382lt8ng1fnohssmlaq6tgfdk3v3k5p4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1064265387879-vl88ge5bcca9gii9hrg5jov5dsmfq98r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.videotor.ios"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7886619676351440~4680714568"
+    }
+  ],
+  "configuration_version": "1"
+}

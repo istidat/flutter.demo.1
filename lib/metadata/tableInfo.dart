@@ -6,6 +6,7 @@ import 'package:videotor/helpers/index.dart';
 
 class TableInfo<TEntity extends GenericEntity<TEntity>> {
   String get repr => translation.tr();
+  bool get altered => fieldInfos.any((col) => col.newVersion);
   final int version;
   final String translation;
   final String resource;
@@ -65,6 +66,14 @@ class TableInfo<TEntity extends GenericEntity<TEntity>> {
     final parameters =
         "${cols.trim()}${refCols.trim()}${o2oRefCols.trim()}${refs.trim()}${o2oRefs.trim()}"
             .stripTrailing(',');
-    return 'CREATE TABLE $tableName($parameters);';
+    final alterStatements = fields.whereElse(
+      (fi) => fi.newVersion,
+      exists: (list) => list
+          .map((col) =>
+              "IIF(SELECT COUNT(*) FROM pragma_table_info('$tableName') WHERE name='${col.name}'=0, 'ALTER TABLE $tableName ADD $col','')")
+          .reduce((col1, col2) => "$col1, $col2"),
+      noElement: "",
+    );
+    return 'CREATE TABLE $tableName($parameters); $alterStatements';
   }
 }

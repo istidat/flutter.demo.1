@@ -64,7 +64,7 @@ class Home extends GetView<HomeController> {
       child: ListView(
         children: [
           Image.asset(
-            'assets/images/resources/zakiriyn-screen.png',
+            'assets/images/widgets/screen.png',
             fit: BoxFit.fill,
           ),
         ],
