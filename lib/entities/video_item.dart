@@ -7,9 +7,13 @@ import 'package:videotor/services/index.dart';
 class VideoItem extends GenericEntity<VideoItem> {
   var begin = 0.0.obs;
   var end = 0.0.obs;
+  var path = "".obs;
 
   var isPlaying = false.obs;
-
+  var saved = false.obs;
+  var loaded = false.obs;
+  bool get visible => loaded.value && saved.value;
+  
   Rx<User> user = Rx<User>();
 
   @override
@@ -40,6 +44,16 @@ class VideoItem extends GenericEntity<VideoItem> {
               setter: (e, val) => e.end.value = val,
             ),
           ),
+          FieldInfo(
+            name: "path",
+            repr: "Dosya Yolu",
+            dataType: DataType.int,
+            displayOnForm: false,
+            prop: Prop(
+              getter: (e) => e.path.value,
+              setter: (e, val) => e.path.value = val,
+            ),
+          ),
         ],
         referenceInfos: [
           ReferenceInfo(
@@ -50,14 +64,10 @@ class VideoItem extends GenericEntity<VideoItem> {
       );
 
   @override
-  int get hashCode =>
-      begin.hashCode ^
-      end.hashCode;
+  int get hashCode => begin.hashCode ^ end.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is VideoItem &&
-          begin == other.begin &&
-          end == other.end;
+      other is VideoItem && begin == other.begin && end == other.end;
 }

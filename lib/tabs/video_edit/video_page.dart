@@ -5,7 +5,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:videotor/controllers/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/tabs/app_page.dart';
-import 'package:videotor/tabs/video/index.dart';
+import 'package:videotor/tabs/video_edit/index.dart';
 
 class VideoPage extends AppPage<VideoPageController> {
   static const _kDuration = const Duration(milliseconds: 300);
