@@ -19,6 +19,12 @@
 	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7886619676351440~7602391371</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Uygulamanın kameranızı kullanması gerekiyor</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Uygulamanın ses kaydetme özelliklerine ulaşması gerekiyor</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Uygulamanın fotoğraflarınıza erişmesi gerekiyor</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

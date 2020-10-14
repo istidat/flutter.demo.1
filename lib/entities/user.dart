@@ -15,6 +15,7 @@ class User extends GenericEntity<User> {
   var password = "".obs;
 
   Rx<AppSettings> appSettings = AppSettings().obs;
+  var videoItems = <VideoItem>[].obs;
 
   @override
   String toString() => initials.value;
@@ -67,16 +68,16 @@ class User extends GenericEntity<User> {
             ),
           ),
         ],
-        one2OneReferences: [
-          One2OneReferenceInfo(
-            prop: Prop(
-              getter: (e) => e.appSettings.value,
-              setter: (e, val) => e.appSettings.value = val,
+        collectionInfos: [
+          CollectionInfo(
+            name: "videoItems",
+            collectionProp: CollectionProp(
+              getter: (e) => e.videoItems,
+              setter: (v, items) =>
+                  v..videoItems.value = items.cast<VideoItem>().toList(),
+              itemRepo: DataService.repositoryOf<VideoItem>(),
             ),
-            referenceRepository: DataService.repositoryOf<AppSettings>(),
-            foreignTable: DataService.tableNameOf<AppSettings>(),
-            referencingColumn: "app_settings_id",
-          ),
+          )
         ],
       );
 

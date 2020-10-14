@@ -8,9 +8,9 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:videotor/components/forms/index.dart';
 import 'package:videotor/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:videotor/views/index.dart';
-import 'package:videotor/views/app_settings/index.dart';
+import 'package:videotor/models/index.dart';
 import 'package:videotor/services/index.dart';
+import 'package:videotor/tabs/app_page.dart';
 
 class AppSettingsPage extends AppPage<User> {
   @override
