@@ -13,7 +13,7 @@ class VideoPage extends AppPage<VideoPageController> {
 
   final _controller = PageController(initialPage: 0);
   static RxList<Widget> pages = <Widget>[
-    TrimmerPage(),
+    VideoTrimmer(),
   ].obs;
 
   final Rx<AppPage> currentPage = (pages[0] as AppPage).obs;

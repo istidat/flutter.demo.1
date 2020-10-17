@@ -6,9 +6,11 @@ import 'package:videotor/tabs/about/about_page.dart';
 import 'package:videotor/tabs/app_page.dart';
 import 'package:videotor/tabs/app_settings/app_settings_page.dart';
 import 'package:videotor/services/index.dart';
+import 'package:videotor/tabs/video_edit/index.dart';
 
 class HomeController extends GetxController {
   final pages = <AppPage>[
+    VideoPage(),
     AppSettingsPage(),
     AboutPage(),
   ];

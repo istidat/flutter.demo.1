@@ -10,7 +10,7 @@ import 'package:videotor/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/tabs/app_page.dart';
 
-class TrimmerPage extends AppPage<VideoItem> {
+class VideoTrimmer extends AppPage<VideoItem> {
   final Trimmer _trimmer = Trimmer();
 
   @override
@@ -68,7 +68,7 @@ class TrimmerPage extends AppPage<VideoItem> {
                     : () async {
                         _saveVideo().then((value) {
                           UIHelper.snack(
-                            title: 'title.video_save_success'.tr(),
+                            title: 'title.process_completed'.tr(),
                             message: 'message.video_save_success'.tr(),
                           );
                         });
