@@ -1,17 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:videotor/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/metadata/index.dart';
 import 'package:videotor/services/dataService.dart';
 import 'package:videotor/services/index.dart';
+import 'package:videotor/tabs/projects/index.dart';
 
 class VideoProject extends GenericEntity<VideoProject> {
   var title = "".obs;
   var buildDate = "".obs;
-  var thumbnail = "".obs;
 
   User get user => owner as User;
   var videoItems = <VideoItem>[].obs;
+
+  void openProject() {
+    Get.to(VideoItemListingPage.of(this));
+  }
+
+  Widget get thumbnail {
+    return Image.asset(
+      'assets/images/widgets/project-thumbnail.png',
+      fit: BoxFit.fill,
+    );
+  }
 
   Future<void> removeProject() async {
     UIHelper.alert(
@@ -47,15 +59,6 @@ class VideoProject extends GenericEntity<VideoProject> {
               getter: (e) => e.buildDate.value,
               setter: (e, val) => e.buildDate.value = val,
               defaultValueGetter: (e) => DateTime.now().toString(),
-            ),
-          ),
-          FieldInfo(
-            name: "thumbnail",
-            translation: "entity.video_project.thumbnail",
-            displayOnForm: false,
-            prop: Prop(
-              getter: (e) => e.thumbnail.value,
-              setter: (e, val) => e.thumbnail.value = val,
             ),
           ),
         ],

@@ -10,7 +10,7 @@ import 'package:videotor/services/index.dart';
 
 class HomeController extends GetxController {
   final pages = <AppPage>[
-    VideoProjectsPage(),
+    ProjectListingPage(),
     AppSettingsPage(),
     AboutPage(),
   ];
@@ -32,20 +32,7 @@ class HomeController extends GetxController {
 
   void setParams(int pageIndex) {
     final ctrl = pages[pageIndex];
-    appBar.value = AppBar(
-      title: Obx(() => ctrl.title),
-      actions: ctrl.actions,
-      leading: Builder(
-        builder: (BuildContext context) {
-          return IconButton(
-            icon: Icon(Icons.menu, color: vividTitleColor),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        },
-      ),
-    );
+    appBar.value = ctrl.appBar;
     floatingButton = ctrl.floatingButton;
   }
 

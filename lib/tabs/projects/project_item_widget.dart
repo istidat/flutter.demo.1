@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:videotor/entities/index.dart';
+import 'package:videotor/helpers/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProjectItemWidget extends StatelessWidget {
@@ -37,15 +37,7 @@ class ProjectItemWidget extends StatelessWidget {
           height: 91,
           child: Stack(
             children: [
-              videoProject.thumbnail.value.isEmpty
-                  ? Image.asset(
-                      'assets/images/widgets/generic-thumbnail.png',
-                      fit: BoxFit.fill,
-                    )
-                  : Image.file(
-                      File(videoProject.thumbnail.value),
-                      fit: BoxFit.fill,
-                    ),
+              videoProject.thumbnail,
               Positioned(
                 top: 12,
                 right: 14,
@@ -53,7 +45,7 @@ class ProjectItemWidget extends StatelessWidget {
                   DateFormat(
                     'd MMMM yyyy',
                     EasyLocalization.of(context).locale.toString(),
-                  ).format(DateTime.now()),
+                  ).format(videoProject.buildDate.value.toDateTime()),
                   style: TextStyle(fontSize: 12, color: Colors.black),
                 ),
               ),
@@ -72,7 +64,7 @@ class ProjectItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: videoProject.openProject,
                       child: Text(
                         "label.open_project".tr().toUpperCase(),
                         style: flatButtonStyle,

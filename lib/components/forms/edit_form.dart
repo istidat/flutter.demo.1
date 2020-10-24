@@ -4,6 +4,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:videotor/components/forms/index.dart';
 import 'package:videotor/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
+import 'package:videotor/services/index.dart';
 
 class EditForm {
   static Widget of<TEntity extends GenericEntity<TEntity>>({
@@ -44,7 +45,8 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
                   }
                   entity.owner = ownerEntity ?? entity.owner;
                   edited.value = false;
-                  Get.back(result: entity, closeOverlays: true);
+                  DataService.repositoryOf<TEntity>().update(entity);
+                  Get.back(result: entity);
                 },
               )
             ],

@@ -65,7 +65,11 @@ abstract class GenericEntity<TEntity extends GenericEntity<TEntity>>
   Future<Map<String, dynamic>> toMap() async {
     var map = Map<String, dynamic>();
     for (var field in tableInfo.fieldInfos) {
-      map[field.name] = field.prop.getter(this as TEntity);
+      map[field.name] =
+          (field.prop.defaultValueGetter ?? field.prop.getter)(this as TEntity);
+      if (field.prop.defaultValueGetter != null) {
+        field.prop.setter(this as TEntity, map[field.name]);
+      }
     }
     for (var field in tableInfo.referenceInfos ?? []) {
       final getter = field.getForeignId ?? (e) => e.id.value;

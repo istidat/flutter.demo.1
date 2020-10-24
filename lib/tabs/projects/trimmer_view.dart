@@ -8,9 +8,9 @@ import 'package:videotor/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/tabs/app_page.dart';
 
-class VideoTrimmer extends AppPage<User> {
+class TrimmerView extends AppPage<User> {
   final VideoItem videoItem;
-  VideoTrimmer(this.videoItem);
+  TrimmerView(this.videoItem);
 
   @override
   get translationKey => 'title.video_trim_page'.obs;

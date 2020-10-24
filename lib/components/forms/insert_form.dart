@@ -26,11 +26,11 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
   final GenericEntity withOwner;
   final TEntity Function(TEntity) specializer;
 
-  final TEntity entity = DataService.instanceOf(TEntity);
-  final GlobalKey<FormState> formKey;
-  final edited = false.obs;
+  final TEntity _entity = DataService.instanceOf(TEntity);
+  final GlobalKey<FormState> _formKey;
+  final _edited = false.obs;
 
-  _Form(this.formKey, [this.withOwner, this.specializer]);
+  _Form(this._formKey, [this.withOwner, this.specializer]);
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +50,25 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("insert_item").tr(
-            namedArgs: {"item": "${entity.tableInfo.repr}"},
+            namedArgs: {"item": "${_entity.tableInfo.repr}"},
           ),
           actions: [
             FlatButton(
               child: Text(
                 "label.save",
               ).tr(),
-              onPressed: () {
-                final FormState form = formKey.currentState;
+              onPressed: () async {
+                final FormState form = _formKey.currentState;
                 if (form.validate()) {
                   form.save();
                   if (specializer != null) {
-                    specializer(entity);
+                    specializer(_entity);
                   }
-                  entity.owner = withOwner;
-                  this.edited.value = false;
-                  Get.back(result: entity, closeOverlays: true);
+                  _entity.owner = withOwner;
+                  this._edited.value = false;
+                  final e =
+                      await DataService.repositoryOf<TEntity>().insert(_entity);
+                  Get.back(result: e);
                 } else {
                   UIHelper.alert(
                     title: "alert.error_occurred".tr(),
@@ -88,11 +90,11 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
 
   Widget _buildForm(BuildContext context) {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
         children: _buildFormInputs(
           context,
-          entity.tableInfo.fieldInfos.where((fi) => fi.displayOnForm).toList(),
+          _entity.tableInfo.fieldInfos.where((fi) => fi.displayOnForm).toList(),
         ),
       ),
     );
@@ -131,7 +133,7 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
         break;
     }
     final text = () {
-      final val = fieldInfo.prop.getter(this.entity);
+      final val = fieldInfo.prop.getter(this._entity);
       if (val is int && val == 0) {
         return "";
       }
@@ -151,20 +153,21 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
         maxLines: text().length ~/ 30 + 1,
         controller: TextEditingController(text: text()),
         onFieldSubmitted:
-            entity.tableInfo.fieldInfos.last.name == fieldInfo.name
+            _entity.tableInfo.fieldInfos.last.name == fieldInfo.name
                 ? null
                 : (term) {
                     currentNode.unfocus();
                     FocusScope.of(context).requestFocus(nextFocus);
                   },
         onSaved: (value) {
-          fieldInfo.prop.setter(entity, transform(value));
+          fieldInfo.prop.setter(_entity, transform(value));
         },
         decoration: InputDecoration(labelText: fieldInfo.repr),
         enableSuggestions: true,
-        textInputAction: entity.tableInfo.fieldInfos.last.name == fieldInfo.name
-            ? TextInputAction.done
-            : TextInputAction.next,
+        textInputAction:
+            _entity.tableInfo.fieldInfos.last.name == fieldInfo.name
+                ? TextInputAction.done
+                : TextInputAction.next,
         //maxLength: 32,
         style: TextStyle(fontSize: 20),
         validator: (value) {
@@ -181,7 +184,7 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    if (this.edited.value == true) {
+    if (this._edited.value == true) {
       final response = await UIHelper.alert<String>(
         title: "alert.warning".tr(),
         message: "warning.changes_not_saved".tr(),

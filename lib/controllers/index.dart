@@ -1,2 +1,3 @@
 export 'homeController.dart';
-export 'videoProjectsController.dart';
+export 'projectListingController.dart';
+export 'videoItemListingController.dart';

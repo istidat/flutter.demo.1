@@ -6,7 +6,7 @@ import 'package:videotor/controllers/index.dart';
 import 'package:videotor/tabs/app_page.dart';
 import 'package:videotor/tabs/projects/index.dart';
 
-class VideoProjectsPage extends AppPage<VideoProjectsController> {
+class ProjectListingPage extends AppPage<ProjectListingController> {
   @override
   get translationKey => "tab.video_projects".obs;
 

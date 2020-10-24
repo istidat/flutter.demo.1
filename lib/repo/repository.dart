@@ -117,6 +117,7 @@ class Repository<T extends GenericEntity<T>> {
   Future<T> insert(T entity) async {
     entity.id.value = await DataService.db.transaction((txn) async =>
         await txn.insert(entity.tableInfo.tableName, await entity.toMap()));
+        
     await entity.one2OneModifier((refInfo, referenceEntity) async {
       final e = (await refInfo.referenceRepository.insert(referenceEntity));
       refInfo.prop.setter(entity, e);
