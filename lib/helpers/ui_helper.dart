@@ -150,8 +150,8 @@ class UIHelper {
   }) async {
     return await Get.dialog(
       AlertDialog(
-        title: Text(title),
-        content: Text(message),
+        title: Text(title).tr(),
+        content: Text(message).tr(),
         titleTextStyle:
             TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         contentTextStyle:
@@ -170,7 +170,7 @@ class UIHelper {
                     }
                     Get.back(result: 'cancel');
                   },
-                  child: Text(cancellationText ?? "alert.cancel".tr()),
+                  child: Text((cancellationText ?? "alert.cancel").tr()),
                 )
               : null),
           FlatButton(
@@ -181,7 +181,7 @@ class UIHelper {
               }
               Get.back(result: 'ok');
             },
-            child: Text(approvalText ?? "alert.ok".tr()),
+            child: Text((approvalText ?? "alert.ok").tr()),
           ),
         ],
       ),
@@ -189,11 +189,12 @@ class UIHelper {
     );
   }
 
-  static void snack(
-      {String title,
-      String message,
-      SnackPosition snackPosition: SnackPosition.BOTTOM,
-      bool instantInit: true}) async {
+  static void snack({
+    String title,
+    String message,
+    SnackPosition snackPosition: SnackPosition.BOTTOM,
+    bool instantInit: true,
+  }) async {
     final adHeight = Get.find<AdService>().adHeight.value;
     Get.snackbar(
       title,

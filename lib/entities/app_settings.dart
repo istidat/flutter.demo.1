@@ -71,7 +71,7 @@ class AppSettings extends GenericEntity<AppSettings> {
         fieldInfos: [
           FieldInfo(
             name: "purchased",
-            repr: "Satın Alındı",
+            translation: "entity.app_settings.purchased",
             dataType: DataType.int,
             prop: Prop(
               getter: (e) => e.purchased.value,
@@ -80,7 +80,7 @@ class AppSettings extends GenericEntity<AppSettings> {
           ),
           FieldInfo(
             name: "rewardDate",
-            repr: "Ödül Kaydı",
+            translation: "entity.app_settings.rewardDate",
             prop: Prop(
               getter: (e) => e.rewardDate.value,
               setter: (e, val) => e.rewardDate.value = val,
@@ -88,7 +88,7 @@ class AppSettings extends GenericEntity<AppSettings> {
           ),
           FieldInfo(
             name: "locale",
-            repr: "Dil",
+            translation: "entity.app_settings.locale",
             prop: Prop(
               getter: (e) => e.locale.value,
               setter: (e, val) => e.locale.value = val,
@@ -96,7 +96,7 @@ class AppSettings extends GenericEntity<AppSettings> {
           ),
           FieldInfo(
             name: "vibrationOff",
-            repr: "Titreşimi Kapat",
+            translation: "entity.app_settings.vibrationOff",
             dataType: DataType.int,
             prop: Prop(
               getter: (e) => e.vibrationOff.value,
@@ -105,7 +105,7 @@ class AppSettings extends GenericEntity<AppSettings> {
           ),
           FieldInfo(
             name: "dhikrColor",
-            repr: "Zikir Rengi",
+            translation: "entity.app_settings.dhikrColor",
             prop: Prop(
               getter: (e) => e.dhikrColor.value,
               setter: (e, val) => e.dhikrColor.value = val,

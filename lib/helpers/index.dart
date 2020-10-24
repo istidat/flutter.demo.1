@@ -1,6 +1,6 @@
 export 'constants.dart';
 export 'constructs.dart';
-export 'dots_indicator.dart';
+export '../components/dots_indicator.dart';
 export 'environment.dart';
 export 'extensions.dart';
 export 'localizations.dart';

@@ -12,8 +12,17 @@ enum FormType {
   edit,
 }
 
-class InsertForm<TEntity extends GenericEntity<TEntity>>
-    extends StatelessWidget {
+class InsertForm {
+  static Widget of<TEntity extends GenericEntity<TEntity>>(
+    GlobalKey<FormState> formKey, {
+    GenericEntity withOwner,
+    void Function(TEntity) specializer,
+  }) {
+    return _Form<TEntity>(formKey, withOwner, specializer);
+  }
+}
+
+class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
   final GenericEntity withOwner;
   final TEntity Function(TEntity) specializer;
 
@@ -21,7 +30,7 @@ class InsertForm<TEntity extends GenericEntity<TEntity>>
   final GlobalKey<FormState> formKey;
   final edited = false.obs;
 
-  InsertForm(this.formKey, {this.withOwner, this.specializer});
+  _Form(this.formKey, [this.withOwner, this.specializer]);
 
   @override
   Widget build(BuildContext context) {

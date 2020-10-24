@@ -16,10 +16,7 @@ class PremiumService extends GetxService {
     final thereIsTime = registeredDate != null
         ? registeredDate.isAfter(DateTime.now().subtract(Duration(days: 1)))
         : false;
-    if (kReleaseMode)
-      return thereIsTime;
-    else
-      return true;
+    return !kReleaseMode || thereIsTime;
   }
 
   bool isPurchased() {

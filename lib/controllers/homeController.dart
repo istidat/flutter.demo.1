@@ -5,12 +5,12 @@ import 'package:videotor/helpers/index.dart';
 import 'package:videotor/tabs/about/about_page.dart';
 import 'package:videotor/tabs/app_page.dart';
 import 'package:videotor/tabs/app_settings/app_settings_page.dart';
+import 'package:videotor/tabs/projects/index.dart';
 import 'package:videotor/services/index.dart';
-import 'package:videotor/tabs/video_edit/index.dart';
 
 class HomeController extends GetxController {
   final pages = <AppPage>[
-    VideoPage(),
+    VideoProjectsPage(),
     AppSettingsPage(),
     AboutPage(),
   ];
@@ -32,23 +32,21 @@ class HomeController extends GetxController {
 
   void setParams(int pageIndex) {
     final ctrl = pages[pageIndex];
-    Get.find<UIService>().setHomeParams(
-      appBar: AppBar(
-        title: Obx(() => ctrl.title),
-        actions: ctrl.actions,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Icon(Icons.menu, color: vividTitleColor),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+    appBar.value = AppBar(
+      title: Obx(() => ctrl.title),
+      actions: ctrl.actions,
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: Icon(Icons.menu, color: vividTitleColor),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        },
       ),
-      floatingButton: ctrl.floatingButton,
     );
+    floatingButton = ctrl.floatingButton;
   }
 
   void adjoinFAB({bool cancel: false}) async {
@@ -64,28 +62,29 @@ class HomeController extends GetxController {
     final adService = Get.find<AdService>();
     return Obx(() => Padding(
           padding: EdgeInsets.only(bottom: adService.adHeight.value),
-          child: BottomNavigationBar(
-            currentIndex: pageIndex.value,
-            backgroundColor: Colors.grey[900],
-            type: BottomNavigationBarType.fixed,
-            iconSize: 20.0,
-            selectedFontSize: 10.0,
-            unselectedFontSize: 10.0,
-            selectedItemColor: vividTitleColor,
-            unselectedItemColor: Colors.white,
-            items: pages
-                .map((page) => BottomNavigationBarItem(
-                      icon: page.icon.value,
-                      label: (page.alternativeTranslationKey.value
-                              .ifNull(elseThen: page.translationKey.value))
-                          .tr(),
-                    ))
-                .toList(),
-            onTap: (index) {
-              pageIndex.value = index;
-              setParams(index);
-            },
-          ),
+          child: Obx(() => BottomNavigationBar(
+                currentIndex: pageIndex.value,
+                backgroundColor: Colors.grey[900],
+                type: BottomNavigationBarType.fixed,
+                iconSize: 20.0,
+                selectedFontSize: 10.0,
+                unselectedFontSize: 10.0,
+                selectedItemColor: vividTitleColor,
+                unselectedItemColor: Colors.white,
+                items: pages
+                    .map((page) => BottomNavigationBarItem(
+                          icon: page.icon.value,
+                          label: (page.alternativeTranslationKey.value
+                                  .ifNull(elseThen: page.translationKey.value))
+                              .tr(),
+                        ))
+                    .toList(),
+                onTap: (index) {
+                  pageIndex.value = index;
+                  setParams(index);
+                  pages[index].onTap();
+                },
+              )),
         ));
   }
 }

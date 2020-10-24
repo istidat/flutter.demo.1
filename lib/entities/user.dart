@@ -15,7 +15,7 @@ class User extends GenericEntity<User> {
   var password = "".obs;
 
   Rx<AppSettings> appSettings = AppSettings().obs;
-  var videoItems = <VideoItem>[].obs;
+  var videoProjects = <VideoProject>[].obs;
 
   @override
   String toString() => initials.value;
@@ -29,7 +29,7 @@ class User extends GenericEntity<User> {
         fieldInfos: [
           FieldInfo(
             name: "email",
-            repr: "E-Posta",
+            translation: "entity.user.email",
             prop: Prop(
               getter: (e) => e.email.value,
               setter: (e, val) => e.email.value = val,
@@ -37,7 +37,7 @@ class User extends GenericEntity<User> {
           ),
           FieldInfo(
             name: "identity",
-            repr: "Benzersiz Kimlik",
+            translation: "entity.user.identity",
             prop: Prop(
               getter: (e) => e.identity.value,
               setter: (e, val) => e.identity.value = val,
@@ -45,7 +45,7 @@ class User extends GenericEntity<User> {
           ),
           FieldInfo(
             name: "initials",
-            repr: "Ad Soyad",
+            translation: "entity.user.initials",
             prop: Prop(
               getter: (e) => e.initials.value,
               setter: (e, val) => e.initials.value = val,
@@ -53,7 +53,7 @@ class User extends GenericEntity<User> {
           ),
           FieldInfo(
             name: "apiToken",
-            repr: "Giriş Anahtarı",
+            translation: "entity.user.apiToken",
             prop: Prop(
               getter: (e) => e.apiToken.value,
               setter: (e, val) => e.apiToken.value = val,
@@ -61,7 +61,7 @@ class User extends GenericEntity<User> {
           ),
           FieldInfo(
             name: "password",
-            repr: "Şifre",
+            translation: "entity.user.password",
             prop: Prop(
               getter: (e) => e.password.value,
               setter: (e, val) => e.password.value = val,
@@ -72,10 +72,10 @@ class User extends GenericEntity<User> {
           CollectionInfo(
             name: "videoItems",
             collectionProp: CollectionProp(
-              getter: (e) => e.videoItems,
+              getter: (e) => e.videoProjects,
               setter: (v, items) =>
-                  v..videoItems.value = items.cast<VideoItem>().toList(),
-              itemRepo: DataService.repositoryOf<VideoItem>(),
+                  v..videoProjects.value = items.cast<VideoProject>().toList(),
+              itemRepo: DataService.repositoryOf<VideoProject>(),
             ),
           )
         ],

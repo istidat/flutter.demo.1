@@ -17,7 +17,7 @@ class AdService extends GetxService {
     return BannerAd(
         targetingInfo: AdManager.targetingInfo,
         adUnitId: AdManager.bannerAdUnitId,
-        size: AdSize.banner,
+        size: AdSize.fullBanner,
         listener: (MobileAdEvent event) async {
           if (event == MobileAdEvent.loaded) {
             if (_bannerDisposed.value)

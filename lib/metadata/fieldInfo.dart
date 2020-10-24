@@ -1,10 +1,12 @@
 import 'package:videotor/metadata/index.dart';
 import 'package:videotor/entities/index.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FieldInfo<TEntity extends GenericEntity<TEntity>> {
   final String name;
-  final String repr;
+  String get repr => translation.tr();
+  final String translation;
   final Prop<TEntity, dynamic> prop;
   final bool newVersion;
   final DataType dataType;
@@ -16,7 +18,7 @@ class FieldInfo<TEntity extends GenericEntity<TEntity>> {
 
   FieldInfo({
     @required this.name,
-    @required this.repr,
+    @required this.translation,
     @required this.prop,
     this.newVersion: false,
     this.nullableOnForm: false,

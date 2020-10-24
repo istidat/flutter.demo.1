@@ -16,6 +16,33 @@ class TableInfo<TEntity extends GenericEntity<TEntity>> {
   final Iterable<One2OneReferenceInfo<TEntity>> one2OneReferences;
   final Iterable<CollectionInfo<TEntity>> collectionInfos;
 
+  List get _fields => List.of([
+        FieldInfo<TEntity>(
+          translation: 'entity.generic.id',
+          name: 'id',
+          prop: Prop(
+            getter: (e) => e.id.value,
+            setter: (e, val) => e.id.value = val,
+          ),
+          dataType: DataType.int,
+          displayOnForm: false,
+          primaryKey: true,
+        )
+      ])
+        ..addAll(fieldInfos);
+
+  String get alterStatements => _fields.whereElse(
+        (fi) => fi.newVersion,
+        exists: (list) => list.map((col) => """
+            select case(CNT) 
+                WHEN 0 then 'ALTER TABLE $tableName ADD $col'
+                WHEN 1 then ''
+                END
+            FROM (SELECT COUNT(*) AS CNT FROM pragma_table_info('$tableName') WHERE name='${col.title}')
+            """).reduce((col1, col2) => "$col1, $col2"),
+        noElement: "",
+      );
+
   TableInfo({
     @required this.version,
     @required this.translation,
@@ -29,22 +56,8 @@ class TableInfo<TEntity extends GenericEntity<TEntity>> {
 
   @override
   String toString() {
-    final fields = List.of([
-      FieldInfo<TEntity>(
-        repr: 'id',
-        name: 'id',
-        prop: Prop(
-          getter: (e) => e.id.value,
-          setter: (e, val) => e.id.value = val,
-        ),
-        dataType: DataType.int,
-        displayOnForm: false,
-        primaryKey: true,
-      )
-    ])
-      ..addAll(fieldInfos);
     var cols =
-        fields.map((col) => "$col").reduce((col1, col2) => "$col1, $col2");
+        _fields.map((col) => "$col").reduce((col1, col2) => "$col1, $col2");
     final refCols = referenceInfos
             ?.map((ref) => ", ${ref.columnify()}")
             ?.reduce((col1, col2) => col1 + col2) ??
@@ -66,14 +79,6 @@ class TableInfo<TEntity extends GenericEntity<TEntity>> {
     final parameters =
         "${cols.trim()}${refCols.trim()}${o2oRefCols.trim()}${refs.trim()}${o2oRefs.trim()}"
             .stripTrailing(',');
-    final alterStatements = fields.whereElse(
-      (fi) => fi.newVersion,
-      exists: (list) => list
-          .map((col) =>
-              "IIF(SELECT COUNT(*) FROM pragma_table_info('$tableName') WHERE name='${col.name}'=0, 'ALTER TABLE $tableName ADD $col','')")
-          .reduce((col1, col2) => "$col1, $col2"),
-      noElement: "",
-    );
-    return 'CREATE TABLE $tableName($parameters); $alterStatements';
+    return 'CREATE TABLE $tableName($parameters);';
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:videotor/entities/index.dart';
-import 'package:videotor/metadata/index.dart';
 import 'package:videotor/repo/index.dart';
 
 typedef GeneratorDelegate = GenericEntity Function();
@@ -12,6 +11,8 @@ class DataService {
   static final List<GeneratorDelegate> _generators = <GeneratorDelegate>[
     () => AppSettings(),
     () => User(),
+    () => VideoProject(),
+    () => VideoItem(),
   ];
 
   static final Map<Type, String> _tableNames = {
@@ -20,7 +21,7 @@ class DataService {
   };
   static Database _database;
   static Database _prevDatabase;
-  static const _version = 2;
+  static const _version = 4;
   static Database get db => _prevDatabase ?? _database;
 
   Future<DataService> init() async {
@@ -31,13 +32,11 @@ class DataService {
         dbFile.path,
         version: _version,
         onUpgrade: (db, prev, next) async {
-          if (next > prev) {
-            await _upgradeDatabase(db, next);
-          }
+          await _upgrade(db);
         },
         onOpen: (db) async {
           if (!kReleaseMode) {
-            //await recreateDB(db);
+            // await recreateDB(db);
           }
         },
         onCreate: (Database db, int version) async {
@@ -48,13 +47,9 @@ class DataService {
     return this;
   }
 
-  Future<void> _upgradeDatabase(Database db, int nextVersion) async {
+  Future _upgrade(Database db) async {
     _prevDatabase = db;
-    final repo = repositoryOf<User>();
-    await recreateDB(db, newVersion: (ti) => ti.version == nextVersion);
-    final prevDBUser = (await repo.all()).first;
-    await recreateDB(db);
-    await repo.insert(prevDBUser);
+    await recreateDB(db, forUpgrade: true);
     _prevDatabase = null;
   }
 
@@ -63,33 +58,29 @@ class DataService {
     await (dbRef ?? db).execute('PRAGMA foreign_keys = $word;');
   }
 
-  Future<void> recreateDB(
-    Database db, {
-    bool Function(TableInfo) newVersion,
-  }) async {
+  Future<void> recreateDB(Database db, {bool forUpgrade: false}) async {
     await pragmaForeignKeys(on: false, dbRef: db);
-    for (var script in regenerateWhen(newVersion: newVersion)) {
-      await db.execute(script);
+    for (var script in regenerateScripts(forUpgrade: forUpgrade)) {
+      await db.rawQuery(script);
     }
     await pragmaForeignKeys(on: true, dbRef: db);
   }
 
-  Iterable<String> regenerateWhen({bool Function(TableInfo) newVersion}) {
+  Iterable<String> regenerateScripts({bool forUpgrade: false}) {
     var scriptList = <String>[];
     for (var gen in _generators) {
       final e = gen();
-      final regen = (bool drop) {
-        if (drop) {
-          scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
-        }
+      final recreate = () {
+        scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
         scriptList.add('${e.tableInfo}');
       };
-      if (newVersion != null) {
-        if (newVersion(e.tableInfo)) {
-          regen(e.tableInfo.altered == false);
-        }
-      } else {
-        regen(true);
+      if (forUpgrade && e.tableInfo.version == _version) {
+        recreate();
+      } else if (e.tableInfo.altered) {
+        recreate();
+        scriptList.add('${e.tableInfo.alterStatements}');
+      } else if (forUpgrade == false) {
+        recreate();
       }
     }
     return scriptList;

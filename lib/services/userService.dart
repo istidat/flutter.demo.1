@@ -12,7 +12,7 @@ class UserService extends GetxService {
       final user = await uRepo.insert((await Api.login()).user);
       Get.put(user, permanent: true);
     } else {
-      final dbUser = (await uRepo.all()).first;
+      final dbUser = await uRepo.first();
       Get.put(dbUser, permanent: true);
     }
     return this;

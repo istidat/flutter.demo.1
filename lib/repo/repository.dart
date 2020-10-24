@@ -34,7 +34,7 @@ class Repository<T extends GenericEntity<T>> {
             (refInfo) =>
                 refInfo.referenceRepo.entityInstance().tableInfo.tableName ==
                 t.tableInfo.tableName,
-            orElse: null,
+            orElse: () => null,
           );
           final whereString = "${itemReferenceInfo.referencingColumn}=?";
           items = await collInfo.collectionProp.itemRepo.all(

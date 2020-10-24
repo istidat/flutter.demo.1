@@ -20,8 +20,13 @@ Future<void> init({bool test: false}) async {
   await Get.putAsync(() => DataService().init());
   await Get.putAsync(() => UserService().init());
   await Get.putAsync(() => IAPService().init());
+  await _initControllers();
   Get.putAsync(() => AdService().init());
   Get.lazyPut(() => UIService().init());
   Get.lazyPut(() => PremiumService().init());
+}
+
+Future<void> _initControllers() async {
   Get.lazyPut(() => HomeController());
+  Get.lazyPut(() => VideoProjectsController());
 }
