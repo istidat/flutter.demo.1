@@ -24,9 +24,9 @@ dependencies:
   vibration: ^1.7.1
   image_picker: ^0.6.7+12
   flutter_speed_dial: ^1.2.5
-  video_trimmer: ^0.3.2
-  thumbnails: ^1.0.1
   flutter_ffmpeg: ^0.3.0
+  video_trimmer: ^0.3.2
+  video_thumbnail: ^0.2.2
   
 dev_dependencies:
   flutter_test:

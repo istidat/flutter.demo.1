@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:videotor/components/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -52,47 +53,31 @@ class VideoItemWidget extends StatelessWidget {
   Card _buildCard() {
     final double cardHeight = 81;
     return Card(
-      child: FutureBuilder<Widget>(
-        future: videoItem.thumbnail(),
-        builder: (ctx, snapshot) {
-          if (!snapshot.hasData) {
-            return Container(
+      child: Obx(() => !videoItem.thumbnailed.value
+          ? Container(
               height: cardHeight,
               child: Center(child: CircularProgressIndicator()),
-            );
-          } else {
-            return Container(
+            )
+          : Container(
               height: cardHeight,
               child: Stack(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(1),
-                    child: snapshot.data,
+                  Obx(() => Padding(
+                        padding: EdgeInsets.all(1),
+                        child: videoItem.thumbnail.value,
+                      )),
+                  Positioned(
+                    bottom: 1,
+                    left: 1,
+                    child: Obx(() => Text(
+                          Duration(
+                            seconds: videoItem.videoInfo.value.duration.toInt(),
+                          ).toHHMMSS(),
+                        )),
                   ),
-                  FutureBuilder<VideoInfo>(
-                      future: videoItem.info(),
-                      builder: (ctx, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(child: CircularProgressIndicator());
-                        } else {
-                          return Positioned(
-                            bottom: 1,
-                            left: 1,
-                            child: Text(
-                              Duration(
-                                milliseconds: snapshot.data.duration.toInt(),
-                              ).toHHMMSS(),
-                              style: outlinedTextStyle,
-                            ),
-                          );
-                        }
-                      }),
                 ],
               ),
-            );
-          }
-        },
-      ),
+            )),
     );
   }
 

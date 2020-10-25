@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_ffmpeg/media_information.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:thumbnails/thumbnails.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -27,10 +27,11 @@ class VideoInfo {
     this.duration = double.parse(mediaProps['duration'].toString());
     final streams = info.getStreams();
     if (streams != null) {
-      final props = streams.first.getAllProperties();
-      this.width = double.parse(props['width'].toString());
-      this.height = double.parse(props['height'].toString());
-      this.bitrate = double.parse(props['bitrate'].toString());
+      final props1 = streams.elementAt(0).getAllProperties();
+      final props2 = streams.elementAt(1).getAllProperties();
+      this.width = double.parse(props2['width'].toString());
+      this.height = double.parse(props2['height'].toString());
+      this.bitrate = double.parse(props1['bit_rate'].toString());
     }
   }
 }
@@ -44,35 +45,41 @@ class VideoItem extends GenericEntity<VideoItem> {
   var isPlaying = false.obs;
   var saved = false.obs;
   var loaded = false.obs;
+  var thumbnailed = false.obs;
   final trimmer = Trimmer();
   final FlutterFFprobe _ffprobe = new FlutterFFprobe();
+  Rx<Widget> thumbnail = Rx<Widget>();
+  Rx<VideoInfo> videoInfo = Rx<VideoInfo>();
 
-  Future<Widget> thumbnail() async {
+  Future<void> loadThumbnail() async {
+    thumbnailed.value = false;
     final video = File(path.value);
+    final info = await this.info();
     if (video.existsSync()) {
-      final info = await this.info();
       final w = info.width;
       final h = info.height;
       final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
       final int maxHeight = ((h / w) * maxWidth).floor();
-      final thumbFile = await Thumbnails.getThumbnail(
-        thumbnailFolder: video.parentDirectory.path,
-        videoFile: video.path,
-        imageType: ThumbFormat.PNG,
+      final thumbData = await VideoThumbnail.thumbnailData(
+        video: video.path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: maxWidth,
         quality: 80,
       );
-      return Image.memory(
-        File(thumbFile).readAsBytesSync(),
+      thumbnail.value = Image.memory(
+        thumbData,
         fit: BoxFit.cover,
         width: maxWidth.toDouble(),
         height: maxHeight.toDouble(),
       );
     } else {
-      return Image.asset(
+      thumbnail.value = Image.asset(
         'assets/images/widgets/video-thumbnail.png',
         fit: BoxFit.fill,
       );
     }
+    videoInfo.value = info;
+    thumbnailed.value = true;
   }
 
   Future<VideoInfo> info() async {

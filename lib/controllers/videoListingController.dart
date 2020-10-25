@@ -19,7 +19,7 @@ class VideoListingController extends GetxController {
       final VideoItem inserted =
           await DataService.repositoryOf<VideoItem>().insert(formed);
       if (inserted != null) {
-        this.videoProject.videoItems.add(inserted);
+        this.videoProject.videoItems.add(inserted..loadThumbnail());
       }
     }
   }
