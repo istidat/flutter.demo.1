@@ -43,9 +43,7 @@ class VideoItemWidget extends StatelessWidget {
               onTap: videoItem.videoEditor,
             ),
           ),
-          Expanded(
-            child: _buildTrailing(),
-          ),
+          _buildTrailing(),
         ],
       ),
     );
@@ -71,7 +69,7 @@ class VideoItemWidget extends StatelessWidget {
                     padding: EdgeInsets.all(1),
                     child: snapshot.data,
                   ),
-                  FutureBuilder<Map<String, dynamic>>(
+                  FutureBuilder<VideoInfo>(
                       future: videoItem.info(),
                       builder: (ctx, snapshot) {
                         if (!snapshot.hasData) {
@@ -82,8 +80,7 @@ class VideoItemWidget extends StatelessWidget {
                             left: 1,
                             child: Text(
                               Duration(
-                                milliseconds:
-                                    snapshot.data['durationMs'].toInt(),
+                                milliseconds: snapshot.data.duration.toInt(),
                               ).toHHMMSS(),
                               style: outlinedTextStyle,
                             ),
@@ -100,8 +97,7 @@ class VideoItemWidget extends StatelessWidget {
   }
 
   Widget _buildTrailing() {
-    return Container(
-      padding: EdgeInsets.only(right: 5),
+    return Center(
       child: PopupMenuButton<ThreeDotMenuAction>(
         icon: Icon(Icons.more_vert, color: Colors.white),
         onSelected: (term) async {

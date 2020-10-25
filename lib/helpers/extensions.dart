@@ -146,3 +146,10 @@ extension DurationExtensions on Duration {
     return "0$n";
   }
 }
+
+extension FileExtensions on File {
+  Directory get parentDirectory {
+    final fileName = path.basename(this.path);
+    return Directory(this.path.stripTrailing(fileName).stripTrailing('/'));
+  }
+}

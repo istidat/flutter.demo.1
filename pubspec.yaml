@@ -25,8 +25,8 @@ dependencies:
   image_picker: ^0.6.7+12
   flutter_speed_dial: ^1.2.5
   video_trimmer: ^0.3.2
-  media_info: ^0.6.4
-  image: ^2.1.18
+  thumbnails: ^1.0.1
+  flutter_ffmpeg: ^0.3.0
   
 dev_dependencies:
   flutter_test:

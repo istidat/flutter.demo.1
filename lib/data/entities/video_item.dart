@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:flutter_ffmpeg/media_information.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:image/image.dart' as image;
-import 'package:media_info/media_info.dart';
+import 'package:thumbnails/thumbnails.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -15,6 +16,25 @@ enum EditorPurpose {
   forSpliceEqual,
 }
 
+class VideoInfo {
+  double duration;
+  double width;
+  double height;
+  double bitrate;
+
+  VideoInfo({MediaInformation info}) {
+    final mediaProps = info.getMediaProperties();
+    this.duration = double.parse(mediaProps['duration'].toString());
+    final streams = info.getStreams();
+    if (streams != null) {
+      final props = streams.first.getAllProperties();
+      this.width = double.parse(props['width'].toString());
+      this.height = double.parse(props['height'].toString());
+      this.bitrate = double.parse(props['bitrate'].toString());
+    }
+  }
+}
+
 class VideoItem extends GenericEntity<VideoItem> {
   var begin = 0.0.obs;
   var end = 0.0.obs;
@@ -24,28 +44,25 @@ class VideoItem extends GenericEntity<VideoItem> {
   var isPlaying = false.obs;
   var saved = false.obs;
   var loaded = false.obs;
-  Future<bool> get isVideoFile async =>
-      (await info())['mimeType'].startsWith("video/");
   final trimmer = Trimmer();
-  final MediaInfo _mediaInfo = MediaInfo();
+  final FlutterFFprobe _ffprobe = new FlutterFFprobe();
 
   Future<Widget> thumbnail() async {
-    if (File(path.value).existsSync()) {
+    final video = File(path.value);
+    if (video.existsSync()) {
       final info = await this.info();
-      final int w = info['width'];
-      final int h = info['height'];
+      final w = info.width;
+      final h = info.height;
       final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
       final int maxHeight = ((h / w) * maxWidth).floor();
-      final thumbFile = await _mediaInfo.generateThumbnail(
-        path.value,
-        await path.value.thumbnailPath,
-        maxWidth,
-        maxHeight,
+      final thumbFile = await Thumbnails.getThumbnail(
+        thumbnailFolder: video.parentDirectory.path,
+        videoFile: video.path,
+        imageType: ThumbFormat.PNG,
+        quality: 80,
       );
-      print(thumbFile);
-      final jpeg = image.decodeJpg(File(thumbFile).readAsBytesSync());
       return Image.memory(
-        jpeg.data.buffer.asUint8List(),
+        File(thumbFile).readAsBytesSync(),
         fit: BoxFit.cover,
         width: maxWidth.toDouble(),
         height: maxHeight.toDouble(),
@@ -58,13 +75,11 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<Map<String, dynamic>> info() async {
+  Future<VideoInfo> info() async {
     if (File(path.value).existsSync()) {
-      final Map<String, dynamic> mediaInfo =
-          await _mediaInfo.getMediaInfo(path.value);
-      return mediaInfo;
+      return VideoInfo(info: await _ffprobe.getMediaInformation(path.value));
     } else {
-      return null;
+      return VideoInfo();
     }
   }
 
