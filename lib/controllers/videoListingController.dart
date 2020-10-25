@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
-class VideoItemListingController extends GetxController {
+class VideoListingController extends GetxController {
   VideoProject videoProject;
 
   void setProject(VideoProject videoProject) {

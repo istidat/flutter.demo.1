@@ -8,7 +8,7 @@ import 'package:videotor/views/projects/index.dart';
 
 class ProjectListingPage extends AppPage<ProjectListingController> {
   @override
-  get translationKey => "tab.video_projects".obs;
+  get titleKey => "tab.video_projects".obs;
 
   @override
   get floatingButton => FloatingActionButton(

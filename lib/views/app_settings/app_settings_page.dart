@@ -14,7 +14,7 @@ import 'package:videotor/views/app_page.dart';
 
 class AppSettingsPage extends AppPage<User> {
   @override
-  get translationKey => 'title.app_settings_page'.obs;
+  get titleKey => 'title.app_settings_page'.obs;
 
   @override
   get icon => Icon(Icons.settings).obs;

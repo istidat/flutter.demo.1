@@ -62,7 +62,7 @@ class HomeController extends GetxController {
                     .map((page) => BottomNavigationBarItem(
                           icon: page.icon.value,
                           label: (page.alternativeTranslationKey.value
-                                  .ifNull(elseThen: page.translationKey.value))
+                                  .ifNull(elseThen: page.titleKey.value))
                               .tr(),
                         ))
                     .toList(),

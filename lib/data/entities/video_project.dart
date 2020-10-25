@@ -15,7 +15,7 @@ class VideoProject extends GenericEntity<VideoProject> {
   var videoItems = <VideoItem>[].obs;
 
   void openProject() {
-    Get.to(VideoItemListingPage.of(this));
+    Get.to(VideoListingPage.of(this));
   }
 
   Widget get thumbnail {

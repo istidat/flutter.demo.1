@@ -28,20 +28,30 @@ class VideoItem extends GenericEntity<VideoItem> {
   final trimmer = Trimmer();
   final MediaInfo _mediaInfo = MediaInfo();
 
-  Future<Widget> thumbnail(double maxHeight) async {
+  Future<Widget> thumbnail() async {
     if (File(path.value).existsSync()) {
       final info = await this.info();
       final int w = info['width'];
       final int h = info['height'];
-      final int maxWidth = ((w / h) * maxHeight).floor();
-      print(path.value.thumbnailPath);
-      final thumbFile = await _mediaInfo.generateThumbnail(
-        path.value,
-        path.value.thumbnailPath,
-        maxWidth,
-        maxHeight.floor(),
+      final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
+      final int maxHeight = ((h / w) * maxWidth).floor();
+      String thumbFile;
+      if (File(path.value.thumbnailPath).existsSync()) {
+        thumbFile = path.value.thumbnailPath;
+      } else {
+        thumbFile = await _mediaInfo.generateThumbnail(
+          path.value,
+          path.value.thumbnailPath,
+          maxWidth,
+          maxHeight,
+        );
+      }
+      return Image.file(
+        File(thumbFile),
+        fit: BoxFit.cover,
+        width: maxWidth.toDouble(),
+        height: maxHeight.toDouble(),
       );
-      return Image.file(File(thumbFile));
     } else {
       return Image.asset(
         'assets/images/widgets/video-thumbnail.png',

@@ -37,7 +37,7 @@ extension StringExtensions on String {
 
   String get thumbnailPath {
     return this.stripTrailing('.' + path.basename(this).split('.').last) +
-        '_thumbnail.png';
+        '_thumbnail.jpg';
   }
 }
 

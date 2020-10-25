@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:videotor/components/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class VideoItemWidget extends StatelessWidget {
   final VideoItem videoItem;
@@ -56,7 +55,7 @@ class VideoItemWidget extends StatelessWidget {
     final double cardHeight = 81;
     return Card(
       child: FutureBuilder<Widget>(
-        future: videoItem.thumbnail(cardHeight),
+        future: videoItem.thumbnail(),
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
             return Container(
@@ -79,8 +78,8 @@ class VideoItemWidget extends StatelessWidget {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return Positioned(
-                            bottom: 12,
-                            right: 14,
+                            bottom: 1,
+                            left: 1,
                             child: Text(
                               Duration(
                                 milliseconds:

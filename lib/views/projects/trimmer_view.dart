@@ -13,7 +13,7 @@ class TrimmerView extends AppPage<User> {
   TrimmerView(this.videoItem, this.editorPurpose);
 
   @override
-  get translationKey => 'title.video_trim_page'.obs;
+  get titleKey => 'title.video_trim_page'.obs;
 
   @override
   RxList<Widget> get actions => <Widget>[

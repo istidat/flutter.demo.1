@@ -7,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 class AboutPage extends AppPage {
   @override
-  get translationKey => 'title.about_page'.obs;
+  get titleKey => 'title.about_page'.obs;
 
   @override
   get icon => Icon(Icons.account_box).obs;

@@ -29,6 +29,6 @@ Future<void> init({bool test: false}) async {
 Future<void> _initControllers() async {
   Get.lazyPut(() => HomeController());
   Get.lazyPut(() => ProjectListingController());
-  Get.lazyPut(() => VideoItemListingController());
+  Get.lazyPut(() => VideoListingController());
   return await Future(() {});
 }

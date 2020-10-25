@@ -9,16 +9,19 @@ import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/views/app_page.dart';
 import 'package:videotor/views/projects/index.dart';
 
-class VideoItemListingPage extends AppPage<VideoItemListingController> {
-  VideoItemListingPage(VideoProject videoProject) {
+class VideoListingPage extends AppPage<VideoListingController> {
+  VideoListingPage(VideoProject videoProject) {
     controller.setProject(videoProject);
   }
-  factory VideoItemListingPage.of(VideoProject videoProject) {
-    return VideoItemListingPage(videoProject);
+  factory VideoListingPage.of(VideoProject videoProject) {
+    return VideoListingPage(videoProject);
   }
 
   @override
-  get translationKey => controller.videoProject.title;
+  get titleKey => controller.videoProject.title;
+
+  @override
+  get titleIsKey => false.obs;
 
   @override
   get floatingButton => buildSpeedDial().obs;
