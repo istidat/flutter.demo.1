@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:video_compress/video_compress.dart';
+import 'package:videotor/components/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -38,7 +39,10 @@ class VideoItemWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 8,
-            child: _buildCard(),
+            child: InkWell(
+              child: _buildCard(),
+              onTap: videoItem.videoEditor,
+            ),
           ),
           Expanded(
             child: _buildTrailing(),
@@ -49,13 +53,16 @@ class VideoItemWidget extends StatelessWidget {
   }
 
   Card _buildCard() {
-    final double cardHeight = 72;
+    final double cardHeight = 81;
     return Card(
       child: FutureBuilder<Widget>(
         future: videoItem.thumbnail(cardHeight),
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Container(
+              height: cardHeight,
+              child: Center(child: CircularProgressIndicator()),
+            );
           } else {
             return Container(
               height: cardHeight,
@@ -65,7 +72,7 @@ class VideoItemWidget extends StatelessWidget {
                     padding: EdgeInsets.all(1),
                     child: snapshot.data,
                   ),
-                  FutureBuilder<MediaInfo>(
+                  FutureBuilder<Map<String, dynamic>>(
                       future: videoItem.info(),
                       builder: (ctx, snapshot) {
                         if (!snapshot.hasData) {
@@ -76,7 +83,8 @@ class VideoItemWidget extends StatelessWidget {
                             right: 14,
                             child: Text(
                               Duration(
-                                microseconds: snapshot.data.duration.toInt(),
+                                milliseconds:
+                                    snapshot.data['durationMs'].toInt(),
                               ).toHHMMSS(),
                               style: outlinedTextStyle,
                             ),
@@ -95,26 +103,23 @@ class VideoItemWidget extends StatelessWidget {
   Widget _buildTrailing() {
     return Container(
       padding: EdgeInsets.only(right: 5),
-      child: IconButton(
-        icon: Icon(Icons.more_vert),
-        color: Colors.white,
-        onPressed: () => _openBottomSheet(),
+      child: PopupMenuButton<ThreeDotMenuAction>(
+        icon: Icon(Icons.more_vert, color: Colors.white),
+        onSelected: (term) async {
+          switch (term) {
+            case ThreeDotMenuAction.edit:
+              break;
+            case ThreeDotMenuAction.delete:
+              await videoItem.deleteVideo();
+              break;
+            default:
+              break;
+          }
+        },
+        itemBuilder: (context) {
+          return [ThreeDotMenuAction.edit, ThreeDotMenuAction.delete].menuItems;
+        },
       ),
-    );
-  }
-
-  _openBottomSheet() async {
-    await UIHelper.actionSheet(
-      title: "alert.continue_on_process".tr(),
-      dismissible: true,
-      actions: [
-        SheetAction(
-          title: "title.splice_equal".tr(),
-          subtitle: "message.splice_equal".tr(),
-          onPress: videoItem.videoEditor,
-          color: Colors.green,
-        ),
-      ],
     );
   }
 }

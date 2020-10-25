@@ -30,4 +30,5 @@ Future<void> _initControllers() async {
   Get.lazyPut(() => HomeController());
   Get.lazyPut(() => ProjectListingController());
   Get.lazyPut(() => VideoItemListingController());
+  return await Future(() {});
 }

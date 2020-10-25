@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:path/path.dart' as path;
 
 extension StringExtensions on String {
   bool get isInt => int.tryParse(this) != null;
@@ -33,6 +34,11 @@ extension StringExtensions on String {
   }
 
   DateTime toDateTime() => DateTime.tryParse(this);
+
+  String get thumbnailPath {
+    return this.stripTrailing('.' + path.basename(this).split('.').last) +
+        '_thumbnail.png';
+  }
 }
 
 extension NumExtensions on num {

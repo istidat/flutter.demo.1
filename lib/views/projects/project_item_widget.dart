@@ -10,7 +10,7 @@ class ProjectItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var flatButtonStyle = TextStyle(
+    var outlineTextStyle = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
       shadows: [
@@ -27,7 +27,7 @@ class ProjectItemWidget extends StatelessWidget {
         color: Colors.white38.withOpacity(0.3),
         margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           side: BorderSide(
             color: Colors.white,
             width: 3.0,
@@ -46,14 +46,14 @@ class ProjectItemWidget extends StatelessWidget {
                     'd MMMM yyyy',
                     EasyLocalization.of(context).locale.toString(),
                   ).format(videoProject.buildDate.value.toDateTime()),
-                  style: TextStyle(fontSize: 12, color: Colors.black),
+                  style: outlineTextStyle,
                 ),
               ),
               Center(
                 child: Text(
                   videoProject.title.value.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: flatButtonStyle.copyWith(color: Colors.redAccent),
+                  style: outlineTextStyle.copyWith(color: Colors.redAccent),
                 ),
               ),
               Positioned(
@@ -67,21 +67,21 @@ class ProjectItemWidget extends StatelessWidget {
                       onPressed: videoProject.openProject,
                       child: Text(
                         "label.open_project".tr().toUpperCase(),
-                        style: flatButtonStyle,
+                        style: outlineTextStyle,
                       ),
                     ),
                     FlatButton(
                       onPressed: () {},
                       child: Text(
                         "label.export_project".tr().toUpperCase(),
-                        style: flatButtonStyle,
+                        style: outlineTextStyle,
                       ),
                     ),
                     FlatButton(
                       onPressed: videoProject.removeProject,
                       child: Text(
                         "label.delete_project".tr().toUpperCase(),
-                        style: flatButtonStyle,
+                        style: outlineTextStyle,
                       ),
                     ),
                   ],

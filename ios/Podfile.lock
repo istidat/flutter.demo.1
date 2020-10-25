@@ -55,9 +55,9 @@ PODS:
     - nanopb (~> 1.30906.0)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
   - Flutter (1.0.0)
-  - flutter_ffmpeg/full-gpl (0.3.0):
+  - flutter_ffmpeg/full-gpl-lts (0.3.0):
     - Flutter
-    - mobile-ffmpeg-full-gpl (= 4.4)
+    - mobile-ffmpeg-full-gpl (= 4.4.LTS)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -103,7 +103,9 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - mobile-ffmpeg-full-gpl (4.4)
+  - media_info (0.6.1):
+    - Flutter
+  - mobile-ffmpeg-full-gpl (4.4.LTS)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -125,8 +127,6 @@ PODS:
   - SwiftyGif (5.3.0)
   - vibration (1.7.1):
     - Flutter
-  - video_compress (0.3.0):
-    - Flutter
   - video_player (0.0.1):
     - Flutter
   - video_thumbnail (0.0.1):
@@ -138,15 +138,15 @@ DEPENDENCIES:
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
-  - flutter_ffmpeg/full-gpl (from `.symlinks/plugins/flutter_ffmpeg/ios`)
+  - flutter_ffmpeg/full-gpl-lts (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
+  - media_info (from `.symlinks/plugins/media_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - share_extend (from `.symlinks/plugins/share_extend/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
-  - video_compress (from `.symlinks/plugins/video_compress/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
 
@@ -186,6 +186,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   in_app_purchase:
     :path: ".symlinks/plugins/in_app_purchase/ios"
+  media_info:
+    :path: ".symlinks/plugins/media_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   share_extend:
@@ -196,8 +198,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   vibration:
     :path: ".symlinks/plugins/vibration/ios"
-  video_compress:
-    :path: ".symlinks/plugins/video_compress/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   video_thumbnail:
@@ -224,7 +224,8 @@ SPEC CHECKSUMS:
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  mobile-ffmpeg-full-gpl: 77de728206f08f30c70f530b18abb4e8f6413eb6
+  media_info: 851ffb4907844cf91770c7cbeb134d18787ffa74
+  mobile-ffmpeg-full-gpl: 9d7a8ec95457e39f9c1efe14b848f41798efa684
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
@@ -234,10 +235,9 @@ SPEC CHECKSUMS:
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
   vibration: 4f4ded27b9d0e21e4110ca43978f057412d28c44
-  video_compress: fce97e4fb1dfd88175aa07d2ffc8a2f297f87fbe
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
 
-PODFILE CHECKSUM: a2f975b2538f965c2984a418b5bad5cbf099fb0a
+PODFILE CHECKSUM: 94a3c12fb867f27d3cac5ab5b86639160eecf311
 
 COCOAPODS: 1.10.0
