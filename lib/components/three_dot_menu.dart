@@ -23,7 +23,8 @@ extension TDMExtension on ThreeDotMenuAction {
   get item {
     switch (this) {
       case ThreeDotMenuAction.edit:
-        return Row(
+        return Flex(
+          direction: Axis.horizontal,
           children: [
             Icon(
               Icons.edit,
@@ -34,7 +35,8 @@ extension TDMExtension on ThreeDotMenuAction {
           ],
         );
       case ThreeDotMenuAction.reset:
-        return Row(
+        return Flex(
+          direction: Axis.horizontal,
           children: [
             Icon(
               Icons.refresh,
@@ -45,7 +47,8 @@ extension TDMExtension on ThreeDotMenuAction {
           ],
         );
       case ThreeDotMenuAction.delete:
-        return Row(
+        return Flex(
+          direction: Axis.horizontal,
           children: [
             Icon(
               Icons.delete,

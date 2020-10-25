@@ -34,17 +34,16 @@ class VideoItemWidget extends StatelessWidget {
           width: 1.0,
         ),
       ),
-      child: Flex(
-        direction: Axis.horizontal,
+      child: Row(
         children: [
           Expanded(
-            flex: 8,
+            flex: 9,
             child: InkWell(
               child: _buildCard(),
               onTap: videoItem.videoEditor,
             ),
           ),
-          _buildTrailing(),
+          Expanded(child: _buildTrailing()),
         ],
       ),
     );
@@ -64,7 +63,12 @@ class VideoItemWidget extends StatelessWidget {
                 children: [
                   Obx(() => Padding(
                         padding: EdgeInsets.all(1),
-                        child: videoItem.thumbnail.value,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                          ),
+                          child: videoItem.thumbnail.value,
+                        ),
                       )),
                   Positioned(
                     bottom: 1,
@@ -82,8 +86,10 @@ class VideoItemWidget extends StatelessWidget {
   }
 
   Widget _buildTrailing() {
-    return Center(
+    return Padding(
+      padding: EdgeInsets.only(right: 5),
       child: PopupMenuButton<ThreeDotMenuAction>(
+        padding: EdgeInsets.all(0),
         icon: Icon(Icons.more_vert, color: Colors.white),
         onSelected: (term) async {
           switch (term) {
@@ -97,7 +103,10 @@ class VideoItemWidget extends StatelessWidget {
           }
         },
         itemBuilder: (context) {
-          return [ThreeDotMenuAction.edit, ThreeDotMenuAction.delete].menuItems;
+          return [
+            ThreeDotMenuAction.edit,
+            ThreeDotMenuAction.delete,
+          ].menuItems;
         },
       ),
     );

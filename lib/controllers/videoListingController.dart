@@ -7,7 +7,8 @@ class VideoListingController extends GetxController {
   VideoProject videoProject;
 
   void setProject(VideoProject videoProject) {
-    this.videoProject = videoProject;
+    this.videoProject = videoProject
+      ..videoItems.forEach((vi) => vi.loadThumbnail());
   }
 
   Future<void> addVideoItem({ImageSource from: ImageSource.gallery}) async {
