@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:video_compress/video_compress.dart';
+import 'package:media_info/media_info.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -23,18 +23,34 @@ class VideoItem extends GenericEntity<VideoItem> {
   var isPlaying = false.obs;
   var saved = false.obs;
   var loaded = false.obs;
+  Future<bool> get isVideoFile async =>
+      (await info())['mimeType'].startsWith("video/");
   final trimmer = Trimmer();
+  final MediaInfo _mediaInfo = MediaInfo();
 
   Future<Widget> thumbnail() async {
     if (File(path.value).existsSync()) {
       final info = await this.info();
-      final maxWidth = Get.context.mediaQuery.size.width * .9;
-      final maxHeight = (info.height / info.width) * maxWidth;
-      return Image.memory(
-        await VideoCompress.getByteThumbnail(path.value),
-        width: maxWidth,
-        height: maxHeight,
+      final int w = info['width'];
+      final int h = info['height'];
+      final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
+      final int maxHeight = ((h / w) * maxWidth).floor();
+      String thumbFile;
+      if (File(path.value.thumbnailPath).existsSync()) {
+        thumbFile = path.value.thumbnailPath;
+      } else {
+        thumbFile = await _mediaInfo.generateThumbnail(
+          path.value,
+          path.value.thumbnailPath,
+          maxWidth,
+          maxHeight,
+        );
+      }
+      return Image.file(
+        File(thumbFile),
         fit: BoxFit.cover,
+        width: maxWidth.toDouble(),
+        height: maxHeight.toDouble(),
       );
     } else {
       return Image.asset(
@@ -44,9 +60,11 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<MediaInfo> info() async {
+  Future<Map<String, dynamic>> info() async {
     if (File(path.value).existsSync()) {
-      return await VideoCompress.getMediaInfo(path.value);
+      final Map<String, dynamic> mediaInfo =
+          await _mediaInfo.getMediaInfo(path.value);
+      return mediaInfo;
     } else {
       return null;
     }
