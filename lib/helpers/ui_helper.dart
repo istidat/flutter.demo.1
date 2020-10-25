@@ -112,27 +112,28 @@ class UIHelper {
               );
             },
           ).toList(),
-          cancelButton: cancelButton == null
-              ? CupertinoActionSheetAction(
-                  child: Text("alert.cancel").tr(),
-                  isDefaultAction: true,
-                  onPressed: () {
-                    Get.back(result: 'cancel');
-                  },
-                )
-              : CupertinoActionSheetAction(
-                  child: Text(
-                    cancelButton.title,
-                    style: TextStyle(fontSize: 24.0, color: cancelButton.color),
-                  ),
-                  onPressed: () {
-                    if (cancelButton.onPress != null) {
-                      cancelButton.onPress();
-                    }
-                    Get.back(result: cancelButton.response);
-                  },
-                  isDefaultAction: cancelButton.isDefault,
-                ),
+          cancelButton: CupertinoActionSheetAction(
+            child: Text(
+              cancelButton != null ? cancelButton.title : "alert.cancel",
+              style: TextStyle(
+                color: cancelButton != null
+                    ? cancelButton.color
+                    : Colors.redAccent,
+              ),
+            ).tr(),
+            isDefaultAction:
+                cancelButton != null ? cancelButton.isDefault : true,
+            onPressed: () {
+              if (cancelButton != null) {
+                if (cancelButton.onPress != null) {
+                  cancelButton.onPress();
+                }
+                Get.back(result: cancelButton.response);
+              } else {
+                Get.back(result: 'cancel');
+              }
+            },
+          ),
         ),
       ),
       isDismissible: dismissible,

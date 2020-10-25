@@ -5,9 +5,9 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:videotor/controllers/index.dart';
-import 'package:videotor/entities/index.dart';
-import 'package:videotor/tabs/app_page.dart';
-import 'package:videotor/tabs/projects/index.dart';
+import 'package:videotor/data/entities/index.dart';
+import 'package:videotor/views/app_page.dart';
+import 'package:videotor/views/projects/index.dart';
 
 class VideoItemListingPage extends AppPage<VideoItemListingController> {
   VideoItemListingPage(VideoProject videoProject) {
@@ -33,10 +33,10 @@ class VideoItemListingPage extends AppPage<VideoItemListingController> {
           ? Center(
               child: Text("message.no_video_item").tr(),
             )
-          : ListView(
-              children: controller.videoProject.videoItems
-                  .map((vi) => VideoItemWidget(vi))
-                  .toList(),
+          : ListView.builder(
+              itemCount: controller.videoProject.videoItems.length,
+              itemBuilder: (ctx, index) =>
+                  VideoItemWidget(controller.videoProject.videoItems[index]),
             )),
     ));
   }
@@ -53,7 +53,7 @@ class VideoItemListingPage extends AppPage<VideoItemListingController> {
       overlayOpacity: 0.3,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.image, color: Colors.white),
+          child: Icon(Icons.movie, color: Colors.white),
           backgroundColor: Colors.deepOrange,
           onTap: controller.addVideoItem,
           label: 'label.add_from_gallery'.tr(),

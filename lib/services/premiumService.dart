@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:videotor/controllers/index.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
 class PremiumService extends GetxService {

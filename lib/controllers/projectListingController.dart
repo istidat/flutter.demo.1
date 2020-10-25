@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:videotor/components/forms/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 
 class ProjectListingController extends GetxController {
   RxList<VideoProject> videoProjects = Get.find<User>().videoProjects;

@@ -125,6 +125,8 @@ PODS:
   - SwiftyGif (5.3.0)
   - vibration (1.7.1):
     - Flutter
+  - video_compress (0.3.0):
+    - Flutter
   - video_player (0.0.1):
     - Flutter
   - video_thumbnail (0.0.1):
@@ -144,6 +146,7 @@ DEPENDENCIES:
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
+  - video_compress (from `.symlinks/plugins/video_compress/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
 
@@ -193,6 +196,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   vibration:
     :path: ".symlinks/plugins/vibration/ios"
+  video_compress:
+    :path: ".symlinks/plugins/video_compress/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   video_thumbnail:
@@ -229,9 +234,10 @@ SPEC CHECKSUMS:
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
   vibration: 4f4ded27b9d0e21e4110ca43978f057412d28c44
+  video_compress: fce97e4fb1dfd88175aa07d2ffc8a2f297f87fbe
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
 
-PODFILE CHECKSUM: 569f5e8cf18f0dfd82ac3b55ae51a395f3638977
+PODFILE CHECKSUM: a2f975b2538f965c2984a418b5bad5cbf099fb0a
 
 COCOAPODS: 1.10.0

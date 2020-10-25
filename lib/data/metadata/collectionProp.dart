@@ -1,5 +1,5 @@
-import 'package:videotor/repo/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/repo/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:flutter/material.dart';
 
 class CollectionProp<TEntity extends GenericEntity<TEntity>> {

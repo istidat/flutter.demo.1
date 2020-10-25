@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:videotor/metadata/index.dart';
+import 'package:videotor/data/metadata/index.dart';
 import 'package:videotor/services/dataService.dart';
 import 'package:videotor/services/index.dart';
-import 'package:videotor/tabs/projects/index.dart';
+import 'package:videotor/views/projects/index.dart';
 
 class VideoProject extends GenericEntity<VideoProject> {
   var title = "".obs;

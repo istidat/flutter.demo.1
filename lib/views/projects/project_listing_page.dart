@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:videotor/controllers/index.dart';
-import 'package:videotor/tabs/app_page.dart';
-import 'package:videotor/tabs/projects/index.dart';
+import 'package:videotor/views/app_page.dart';
+import 'package:videotor/views/projects/index.dart';
 
 class ProjectListingPage extends AppPage<ProjectListingController> {
   @override

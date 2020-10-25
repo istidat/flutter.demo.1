@@ -1,5 +1,5 @@
-import 'package:videotor/metadata/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/metadata/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

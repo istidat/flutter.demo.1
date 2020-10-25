@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:videotor/entities/index.dart';
-import 'package:videotor/repo/index.dart';
+import 'package:videotor/data/entities/index.dart';
+import 'package:videotor/data/repo/index.dart';
 
 typedef GeneratorDelegate = GenericEntity Function();
 
@@ -19,16 +19,16 @@ class DataService {
     AppSettings: "app_settings",
     User: "users",
   };
-  static Database _database;
-  static Database _prevDatabase;
-  static const _version = 4;
-  static Database get db => _prevDatabase ?? _database;
+  static Database _db;
+  static Database _prevDB;
+  static const _version = 2;
+  static Database get db => _prevDB ?? _db;
 
   Future<DataService> init() async {
     var databaseDirectory = await getDatabasesPath();
     final dbFile = File(join(databaseDirectory, "app.db"));
-    if (_database == null) {
-      _database = await openDatabase(
+    if (_db == null) {
+      _db = await openDatabase(
         dbFile.path,
         version: _version,
         onUpgrade: (db, prev, next) async {
@@ -36,11 +36,13 @@ class DataService {
         },
         onOpen: (db) async {
           if (!kReleaseMode) {
-            // await recreateDB(db);
+            // _prevDB = db;
+            // await regenerateDB();
           }
         },
         onCreate: (Database db, int version) async {
-          await recreateDB(db);
+          _prevDB = db;
+          await regenerateDB();
         },
       );
     }
@@ -48,42 +50,40 @@ class DataService {
   }
 
   Future _upgrade(Database db) async {
-    _prevDatabase = db;
-    await recreateDB(db, forUpgrade: true);
-    _prevDatabase = null;
+    _prevDB = db;
+    await regenerateDB(forUpgrade: true);
   }
 
-  Future<void> pragmaForeignKeys({@required bool on, dbRef}) async {
+  Future<void> pragmaForeignKeys({@required bool on}) async {
     final word = on ? 'ON' : 'OFF';
-    await (dbRef ?? db).execute('PRAGMA foreign_keys = $word;');
+    await (db).execute('PRAGMA foreign_keys = $word;');
   }
 
-  Future<void> recreateDB(Database db, {bool forUpgrade: false}) async {
-    await pragmaForeignKeys(on: false, dbRef: db);
-    for (var script in regenerateScripts(forUpgrade: forUpgrade)) {
-      await db.rawQuery(script);
-    }
-    await pragmaForeignKeys(on: true, dbRef: db);
-  }
-
-  Iterable<String> regenerateScripts({bool forUpgrade: false}) {
-    var scriptList = <String>[];
+  Future<void> regenerateDB({bool forUpgrade: false}) async {
+    await pragmaForeignKeys(on: false);
     for (var gen in _generators) {
       final e = gen();
-      final recreate = () {
-        scriptList.add("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
-        scriptList.add('${e.tableInfo}');
+      final recreate = ({bool altered: false}) async {
+        await db.execute("DROP TABLE IF EXISTS ${e.tableInfo.tableName};");
+        await db.execute('${e.tableInfo}');
+        if (altered) {
+          final liRes = await db.rawQuery('${e.tableInfo.alterStatements}');
+          if (liRes.length == 0) {
+            final String alterStatement = liRes.first['ALTER_STMT'];
+            db.execute(alterStatement);
+          }
+        }
       };
       if (forUpgrade && e.tableInfo.version == _version) {
-        recreate();
+        await recreate();
       } else if (e.tableInfo.altered) {
-        recreate();
-        scriptList.add('${e.tableInfo.alterStatements}');
+        await recreate(altered: true);
       } else if (forUpgrade == false) {
-        recreate();
+        await recreate();
       }
     }
-    return scriptList;
+    await pragmaForeignKeys(on: true);
+    _prevDB = null;
   }
 
   static GenericEntity instanceOf(Type t) {

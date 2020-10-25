@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:videotor/entities/index.dart';
-import 'package:videotor/metadata/index.dart';
+import 'package:videotor/data/entities/index.dart';
+import 'package:videotor/data/metadata/index.dart';
 import 'package:videotor/helpers/index.dart';
 
 class TableInfo<TEntity extends GenericEntity<TEntity>> {
@@ -34,12 +34,9 @@ class TableInfo<TEntity extends GenericEntity<TEntity>> {
   String get alterStatements => _fields.whereElse(
         (fi) => fi.newVersion,
         exists: (list) => list.map((col) => """
-            select case(CNT) 
-                WHEN 0 then 'ALTER TABLE $tableName ADD $col'
-                WHEN 1 then ''
-                END
-            FROM (SELECT COUNT(*) AS CNT FROM pragma_table_info('$tableName') WHERE name='${col.title}')
-            """).reduce((col1, col2) => "$col1, $col2"),
+                  SELECT 'ALTER TABLE $tableName ADD $col' AS ALTER_STMT FROM sqlite_master 
+                  WHERE type = 'table' AND name = '$tableName' AND sql LIKE '%${col.name}%'
+                """).reduce((col1, col2) => "$col1, $col2"),
         noElement: "",
       );
 

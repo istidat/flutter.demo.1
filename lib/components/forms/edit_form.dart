@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:videotor/components/forms/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/services/index.dart';
 

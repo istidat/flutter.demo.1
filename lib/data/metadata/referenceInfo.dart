@@ -1,6 +1,6 @@
-import 'package:videotor/metadata/index.dart';
+import 'package:videotor/data/metadata/index.dart';
 import 'package:flutter/material.dart';
-import 'package:videotor/repo/repository.dart';
+import 'package:videotor/data/repo/repository.dart';
 
 class ReferenceInfo {
   final String referencingColumn;

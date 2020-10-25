@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:videotor/api/index.dart';
 import 'package:videotor/api/response/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
 abstract class Api {

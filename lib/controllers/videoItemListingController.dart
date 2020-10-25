@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
 class VideoItemListingController extends GetxController {

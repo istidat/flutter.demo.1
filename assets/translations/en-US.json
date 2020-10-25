@@ -104,6 +104,7 @@
     "label.delete_project": "Delete",
     "label.add_from_gallery": "From Gallery",
     "label.add_from_camera": "From Camera",
+    "label.more": "More",
     "tab.video_projects": "Projects",
     "percentage": "{}%",
     "edit_item": "Edit {item}",

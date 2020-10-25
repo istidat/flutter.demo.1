@@ -1,5 +1,5 @@
 import 'package:videotor/api/response/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
 class LoginResponse extends TokenResponse {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:videotor/tabs/about/about_page.dart';
-import 'package:videotor/tabs/app_page.dart';
-import 'package:videotor/tabs/app_settings/app_settings_page.dart';
-import 'package:videotor/tabs/projects/index.dart';
+import 'package:videotor/views/about/about_page.dart';
+import 'package:videotor/views/app_page.dart';
+import 'package:videotor/views/app_settings/app_settings_page.dart';
+import 'package:videotor/views/projects/index.dart';
 import 'package:videotor/services/index.dart';
 
 class HomeController extends GetxController {

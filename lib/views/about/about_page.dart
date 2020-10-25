@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:videotor/helpers/index.dart';
-import 'package:videotor/tabs/app_page.dart';
+import 'package:videotor/views/app_page.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 

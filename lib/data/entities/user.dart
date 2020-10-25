@@ -1,7 +1,7 @@
 import 'package:get/get.dart' hide Trans;
 import 'package:videotor/api/index.dart';
-import 'package:videotor/metadata/index.dart';
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/metadata/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
 
 class User extends GenericEntity<User> {

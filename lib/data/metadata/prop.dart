@@ -1,4 +1,4 @@
-import 'package:videotor/entities/index.dart';
+import 'package:videotor/data/entities/index.dart';
 import 'package:flutter/material.dart';
 
 class Prop<TEntity extends GenericEntity<TEntity>, TProp> {

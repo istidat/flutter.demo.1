@@ -33,9 +33,11 @@ class AppPage<TController extends GetxController> extends StatelessWidget {
         ),
       );
 
-  Widget buildThe(Widget center) {
+  Widget buildThe(Widget center, {bool withDrawer: false}) {
     return Scaffold(
-      appBar: appBar,
+      appBar: withDrawer
+          ? appBar
+          : AppBar(title: Obx(() => title), actions: actions),
       floatingActionButton: floatingButton.value != null
           ? Obx(() => Padding(
                 padding: EdgeInsets.only(

@@ -1,6 +1,6 @@
 import 'package:get/get.dart' hide Trans;
-import 'package:videotor/entities/index.dart';
-import 'package:videotor/metadata/index.dart';
+import 'package:videotor/data/entities/index.dart';
+import 'package:videotor/data/metadata/index.dart';
 import 'package:videotor/services/index.dart';
 
 class Repository<T extends GenericEntity<T>> {
@@ -117,7 +117,7 @@ class Repository<T extends GenericEntity<T>> {
   Future<T> insert(T entity) async {
     entity.id.value = await DataService.db.transaction((txn) async =>
         await txn.insert(entity.tableInfo.tableName, await entity.toMap()));
-        
+
     await entity.one2OneModifier((refInfo, referenceEntity) async {
       final e = (await refInfo.referenceRepository.insert(referenceEntity));
       refInfo.prop.setter(entity, e);
