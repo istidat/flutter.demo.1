@@ -52,7 +52,7 @@ class VideoItemWidget extends StatelessWidget {
   Card _buildCard() {
     final double cardHeight = 81;
     return Card(
-      child: Obx(() => !videoItem.thumbnailed.value
+      child: Obx(() => !videoItem.persisted.value
           ? Container(
               height: cardHeight,
               child: Center(child: CircularProgressIndicator()),
@@ -63,20 +63,13 @@ class VideoItemWidget extends StatelessWidget {
                 children: [
                   Obx(() => Padding(
                         padding: EdgeInsets.all(1),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                          ),
-                          child: videoItem.thumbnail.value,
-                        ),
+                        child: videoItem.thumbnail.value,
                       )),
                   Positioned(
-                    bottom: 1,
-                    left: 1,
+                    bottom: 3,
+                    left: 5,
                     child: Obx(() => Text(
-                          Duration(
-                            seconds: videoItem.videoInfo.value.duration.toInt(),
-                          ).toHHMMSS(),
+                          videoItem.videoInfo.value.duration.toHHMMSS(),
                         )),
                   ),
                 ],

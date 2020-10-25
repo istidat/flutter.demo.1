@@ -18,16 +18,14 @@ class TrimmerView extends AppPage<User> {
   @override
   RxList<Widget> get actions => <Widget>[
         FlatButton(
-          onPressed: videoItem.saved.value
-              ? null
-              : () async {
-                  videoItem.saveVideo().then((value) {
-                    UIHelper.snack(
-                      title: 'title.process_completed'.tr(),
-                      message: 'message.video_save_success'.tr(),
-                    );
-                  });
-                },
+          onPressed: () {
+            videoItem.saveVideo().then((value) {
+              UIHelper.snack(
+                title: 'title.process_completed'.tr(),
+                message: 'message.video_save_success'.tr(),
+              );
+            });
+          },
           child: Text('label.save_video').tr(),
         )
       ].obs;
@@ -42,7 +40,7 @@ class TrimmerView extends AppPage<User> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Obx(() => Visibility(
-                    visible: videoItem.loaded.value,
+                    visible: videoItem.persisted.value,
                     replacement: CircularProgressIndicator(),
                     child: Expanded(
                       child: VideoViewer(borderColor: Colors.white),

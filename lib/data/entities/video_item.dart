@@ -17,21 +17,28 @@ enum EditorPurpose {
 }
 
 class VideoInfo {
-  double duration;
-  double width;
-  double height;
-  double bitrate;
+  Duration duration;
+  int width;
+  int height;
+  String fileName;
 
   VideoInfo({MediaInformation info}) {
-    final mediaProps = info.getMediaProperties();
-    this.duration = double.parse(mediaProps['duration'].toString());
-    final streams = info.getStreams();
-    if (streams != null) {
-      final props1 = streams.elementAt(0).getAllProperties();
-      final props2 = streams.elementAt(1).getAllProperties();
-      this.width = double.parse(props2['width'].toString());
-      this.height = double.parse(props2['height'].toString());
-      this.bitrate = double.parse(props1['bit_rate'].toString());
+    if (info != null) {
+      final mediaProps = info.getMediaProperties();
+      this.duration = Duration(
+          seconds: double.parse(mediaProps['duration'].toString()).floor());
+      this.fileName = mediaProps['filename'].toString();
+      final streams = info.getStreams();
+      if (streams != null) {
+        final props1 = streams.elementAt(0).getAllProperties();
+        final props2 = streams.elementAt(1).getAllProperties();
+        this.width = props1['width'] ?? props2['width'];
+        this.height = props1['height'] ?? props2['height'];
+      }
+    } else {
+      this.duration = Duration(seconds: 0);
+      this.width = Get.context.mediaQueryShortestSide.toInt();
+      this.height = 81;
     }
   }
 }
@@ -43,43 +50,40 @@ class VideoItem extends GenericEntity<VideoItem> {
   VideoProject get project => owner as VideoProject;
 
   var isPlaying = false.obs;
-  var saved = false.obs;
-  var loaded = false.obs;
-  var thumbnailed = false.obs;
+  var persisted = false.obs;
   final trimmer = Trimmer();
   final FlutterFFprobe _ffprobe = new FlutterFFprobe();
   Rx<Widget> thumbnail = Rx<Widget>();
   Rx<VideoInfo> videoInfo = Rx<VideoInfo>();
 
   Future<void> loadThumbnail() async {
-    thumbnailed.value = false;
+    if (persisted.value) {
+      return;
+    }
     final video = File(path.value);
     final info = await this.info();
     if (video.existsSync()) {
-      final w = info.width;
-      final h = info.height;
-      final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
-      final int maxHeight = ((h / w) * maxWidth).floor();
       final thumbData = await VideoThumbnail.thumbnailData(
         video: video.path,
         imageFormat: ImageFormat.JPEG,
-        maxWidth: maxWidth,
+        maxWidth: Get.context.mediaQueryShortestSide.toInt(),
         quality: 80,
       );
       thumbnail.value = Image.memory(
         thumbData,
         fit: BoxFit.cover,
-        width: maxWidth.toDouble(),
-        height: maxHeight.toDouble(),
+        width: Get.context.mediaQueryShortestSide,
       );
     } else {
       thumbnail.value = Image.asset(
         'assets/images/widgets/video-thumbnail.png',
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
+        width: Get.context.mediaQueryShortestSide,
       );
     }
     videoInfo.value = info;
-    thumbnailed.value = true;
+    await saveVideo(firstTime: true);
+    persisted.value = true;
   }
 
   Future<VideoInfo> info() async {
@@ -91,6 +95,10 @@ class VideoItem extends GenericEntity<VideoItem> {
   }
 
   Future<void> deleteVideo() async {
+    final video = File(this.path.value);
+    if (video.existsSync()) {
+      await video.delete();
+    }
     final videoProject = this.owner as VideoProject;
     videoProject.videoItems.remove(this);
     await DataService.repositoryOf<VideoItem>().delete(this);
@@ -99,8 +107,7 @@ class VideoItem extends GenericEntity<VideoItem> {
   Future<void> videoEditor(
       {EditorPurpose purpose: EditorPurpose.forSpliceEqual}) async {
     final file = File(path.value);
-    loaded.value = await file.exists();
-    if (loaded.value) {
+    if (file.existsSync()) {
       await trimmer.loadVideo(videoFile: file);
       Get.to(TrimmerView(this, purpose));
     } else {
@@ -112,13 +119,20 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<void> saveVideo() async {
-    loaded.value = false;
+  Future<void> saveVideo(
+      {double begin: -1, double end: -1, bool firstTime: false}) async {
+    if (firstTime) {
+      await trimmer.loadVideo(videoFile: File(path.value));
+      this.begin.value = 0.0;
+      this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
+    }
     path.value = await trimmer.saveTrimmedVideo(
-      startValue: begin.value,
-      endValue: end.value,
+      startValue: firstTime || begin == -1 ? this.begin.value : begin,
+      endValue: firstTime || end == -1 ? this.end.value : end,
     );
-    saved.value = true;
+    if (firstTime) {
+      DataService.repositoryOf<VideoItem>().update(this);
+    }
   }
 
   @override

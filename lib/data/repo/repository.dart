@@ -133,14 +133,7 @@ class Repository<T extends GenericEntity<T>> {
   }
 
   Future<int> update(T entity, {bool digin: false}) async {
-    var c = await DataService.db.transaction(
-      (txn) async => await txn.update(
-        entity.tableInfo.tableName,
-        await entity.toMap(),
-        where: "id = ?",
-        whereArgs: [entity.id.value],
-      ),
-    );
+    var c = 0;
     if (digin) {
       for (CollectionInfo<T> collInfo
           in entity.tableInfo.collectionInfos ?? []) {
@@ -153,6 +146,14 @@ class Repository<T extends GenericEntity<T>> {
       }
     }
 
+    c += await DataService.db.transaction(
+      (txn) async => await txn.update(
+        entity.tableInfo.tableName,
+        await entity.toMap(),
+        where: "id = ?",
+        whereArgs: [entity.id.value],
+      ),
+    );
     return c;
   }
 
