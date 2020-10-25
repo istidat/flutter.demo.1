@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:videotor/components/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -71,7 +72,7 @@ class VideoItemWidget extends StatelessWidget {
                     padding: EdgeInsets.all(1),
                     child: snapshot.data,
                   ),
-                  FutureBuilder<Map<String, dynamic>>(
+                  FutureBuilder<MediaInfo>(
                       future: videoItem.info(),
                       builder: (ctx, snapshot) {
                         if (!snapshot.hasData) {
@@ -82,8 +83,7 @@ class VideoItemWidget extends StatelessWidget {
                             left: 1,
                             child: Text(
                               Duration(
-                                milliseconds:
-                                    snapshot.data['durationMs'].toInt(),
+                                milliseconds: snapshot.data.duration.toInt(),
                               ).toHHMMSS(),
                               style: outlinedTextStyle,
                             ),
