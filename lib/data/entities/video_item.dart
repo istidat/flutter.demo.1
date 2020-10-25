@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:image/image.dart' as image;
 import 'package:media_info/media_info.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/data/entities/index.dart';
@@ -35,19 +36,16 @@ class VideoItem extends GenericEntity<VideoItem> {
       final int h = info['height'];
       final int maxWidth = (Get.context.mediaQuery.size.width * .9).floor();
       final int maxHeight = ((h / w) * maxWidth).floor();
-      String thumbFile;
-      if (File(path.value.thumbnailPath).existsSync()) {
-        thumbFile = path.value.thumbnailPath;
-      } else {
-        thumbFile = await _mediaInfo.generateThumbnail(
-          path.value,
-          path.value.thumbnailPath,
-          maxWidth,
-          maxHeight,
-        );
-      }
-      return Image.file(
-        File(thumbFile),
+      final thumbFile = await _mediaInfo.generateThumbnail(
+        path.value,
+        await path.value.thumbnailPath,
+        maxWidth,
+        maxHeight,
+      );
+      print(thumbFile);
+      final jpeg = image.decodeJpg(File(thumbFile).readAsBytesSync());
+      return Image.memory(
+        jpeg.data.buffer.asUint8List(),
         fit: BoxFit.cover,
         width: maxWidth.toDouble(),
         height: maxHeight.toDouble(),
