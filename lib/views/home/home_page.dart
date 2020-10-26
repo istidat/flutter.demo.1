@@ -14,17 +14,17 @@ class Home extends GetView<HomeController> {
     final customFontTextTheme =
         GoogleFonts.openSansTextTheme(Theme.of(context).textTheme).copyWith(
       button: GoogleFonts.openSans(
-        color: vividTitleColor,
-        textStyle: TextStyle(color: vividTitleColor, fontSize: 15),
+        color: Constants.labelColor,
+        textStyle: TextStyle(fontSize: 15),
       ),
       bodyText1: GoogleFonts.openSans(
-        textStyle: TextStyle(color: vividTitleColor),
+        textStyle: TextStyle(color: Constants.labelColor),
       ),
       bodyText2: GoogleFonts.openSans(
-        textStyle: TextStyle(color: vividTitleColor),
+        textStyle: TextStyle(color: Constants.labelColor),
       ),
       headline6: GoogleFonts.openSans(
-        textStyle: TextStyle(color: vividTitleColor),
+        textStyle: TextStyle(color: Constants.labelColor),
       ),
     );
     return GetMaterialApp(
@@ -34,12 +34,12 @@ class Home extends GetView<HomeController> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'OpenSans',
-          brightness: Brightness.dark,
-          primarySwatch: Colors.grey,
+          brightness: Brightness.light,
+          primarySwatch: Constants.primaryColor.material,
           appBarTheme: AppBarTheme(
             textTheme: customFontTextTheme,
-            iconTheme: IconThemeData(color: vividTitleColor),
-            actionsIconTheme: IconThemeData(color: vividTitleColor),
+            iconTheme: IconThemeData(color: Constants.buttonColor),
+            actionsIconTheme: IconThemeData(color: Constants.buttonColor),
           ),
           primaryTextTheme: customFontTextTheme),
       home: Obx(() => Scaffold(

@@ -36,9 +36,9 @@ class VideoItem extends GenericEntity<VideoItem> {
     if (video.existsSync()) {
       final thumbData = await VideoThumbnail.thumbnailData(
         video: video.path,
-        imageFormat: ImageFormat.JPEG,
+        imageFormat: ImageFormat.PNG,
         maxWidth: Get.context.mediaQueryShortestSide.toInt(),
-        quality: 80,
+        quality: 100,
       );
       thumbnail.value = Image.memory(
         thumbData,
@@ -47,7 +47,7 @@ class VideoItem extends GenericEntity<VideoItem> {
       );
     } else {
       thumbnail.value = Image.asset(
-        'assets/images/widgets/video-thumbnail.png',
+        'assets/images/widgets/video.png',
         fit: BoxFit.cover,
         width: Get.context.mediaQueryShortestSide,
       );

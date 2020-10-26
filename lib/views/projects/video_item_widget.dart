@@ -10,14 +10,14 @@ class VideoItemWidget extends StatelessWidget {
 
   VideoItemWidget(this.videoItem);
 
-  final outlinedTextStyle = TextStyle(
-    color: Colors.white,
+  final outlineTextStyle = TextStyle(
+    color: Constants.labelColor,
     fontWeight: FontWeight.bold,
     shadows: [
       BoxShadow(
-        color: Colors.black,
+        color: Constants.backgroundColor,
         offset: Offset(1, 1),
-        blurRadius: 3,
+        spreadRadius: 3,
       )
     ],
   );
@@ -25,12 +25,12 @@ class VideoItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       key: ValueKey(videoItem.id),
-      color: Colors.black54.withOpacity(0.3),
+      color: Constants.backgroundColor,
       margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         side: BorderSide(
-          color: vividButtonColor,
+          color: Constants.alternateColor,
           width: 1.0,
         ),
       ),
@@ -67,9 +67,10 @@ class VideoItemWidget extends StatelessWidget {
                       )),
                   Positioned(
                     bottom: 3,
-                    left: 5,
+                    right: 5,
                     child: Obx(() => Text(
                           videoItem.videoInfo.value.duration.toHHMMSS(),
+                          style: outlineTextStyle,
                         )),
                   ),
                 ],

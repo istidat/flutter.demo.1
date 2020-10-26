@@ -19,9 +19,16 @@ class VideoProject extends GenericEntity<VideoProject> {
   }
 
   Widget get thumbnail {
+    if (videoItems.isNotEmpty) {
+      videoItems.forEach((vi) async => await vi.loadThumbnail());
+      final firstVideo = videoItems.first;
+      if (firstVideo.persisted.value) {
+        return firstVideo.thumbnail.value;
+      }
+    }
     return Image.asset(
-      'assets/images/widgets/project-thumbnail.png',
-      fit: BoxFit.fill,
+      'assets/images/widgets/project.png',
+      fit: BoxFit.cover,
     );
   }
 

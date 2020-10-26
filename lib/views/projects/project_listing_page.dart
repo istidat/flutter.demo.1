@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:videotor/controllers/index.dart';
+import 'package:videotor/helpers/index.dart';
 import 'package:videotor/views/app_page.dart';
 import 'package:videotor/views/projects/index.dart';
 
@@ -13,8 +14,8 @@ class ProjectListingPage extends AppPage<ProjectListingController> {
   @override
   get floatingButton => FloatingActionButton(
         elevation: 16.0,
-        backgroundColor: Colors.redAccent,
-        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: Constants.backgroundColor,
+        child: Icon(Icons.add, color: Constants.labelColor),
         onPressed: controller.addVideoProject,
       ).obs;
 

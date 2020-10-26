@@ -5,7 +5,7 @@ import 'package:videotor/data/entities/index.dart';
 
 class ProjectListingController extends GetxController {
   RxList<VideoProject> videoProjects = Get.find<User>().videoProjects;
-  
+
   void addVideoProject() async {
     final VideoProject inserted = await Get.to(
       InsertForm.of<VideoProject>(GlobalKey(), withOwner: Get.find<User>()),
@@ -15,4 +15,5 @@ class ProjectListingController extends GetxController {
       videoProjects.add(inserted);
     }
   }
+
 }

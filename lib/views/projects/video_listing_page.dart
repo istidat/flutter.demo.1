@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:videotor/controllers/index.dart';
 import 'package:videotor/data/entities/index.dart';
+import 'package:videotor/helpers/index.dart';
 import 'package:videotor/views/app_page.dart';
 import 'package:videotor/views/projects/index.dart';
 
@@ -49,26 +50,32 @@ class VideoListingPage extends AppPage<VideoListingController> {
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22.0),
       child: Icon(Icons.add, color: Colors.white),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Constants.alternateColor,
       elevation: 16.0,
       visible: true,
       curve: Curves.bounceIn,
-      overlayOpacity: 0.3,
+      overlayOpacity: 0.1,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.movie, color: Colors.white),
+          child: Icon(Icons.movie, color: Constants.labelColor),
           backgroundColor: Colors.deepOrange,
           onTap: controller.addVideoItem,
           label: 'label.add_from_gallery'.tr(),
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Constants.labelColor,
+          ),
           labelBackgroundColor: Colors.deepOrangeAccent,
         ),
         SpeedDialChild(
-          child: Icon(Icons.camera, color: Colors.white),
+          child: Icon(Icons.camera, color: Constants.labelColor),
           backgroundColor: Colors.green,
           onTap: () => controller.addVideoItem(from: ImageSource.camera),
           label: 'label.add_from_camera'.tr(),
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Constants.labelColor,
+          ),
           labelBackgroundColor: Colors.green,
         ),
       ],

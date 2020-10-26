@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,37 +8,36 @@ class ProjectItemWidget extends StatelessWidget {
   final VideoProject videoProject;
 
   ProjectItemWidget(this.videoProject);
-
+  final outlineTextStyle = TextStyle(
+    color: Constants.labelColor,
+    fontWeight: FontWeight.bold,
+    shadows: [
+      BoxShadow(
+        color: Constants.alternateColor,
+        offset: Offset(1, 1),
+        spreadRadius: 3,
+      )
+    ],
+  );
   @override
   Widget build(BuildContext context) {
-    var outlineTextStyle = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      shadows: [
-        BoxShadow(
-          color: Colors.black,
-          offset: Offset(1, 1),
-          blurRadius: 3,
-        )
-      ],
-    );
     return Container(
       key: ValueKey(videoProject.id),
       child: Card(
-        color: Colors.white38.withOpacity(0.3),
+        color: Constants.labelColor,
         margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(9.0)),
           side: BorderSide(
-            color: Colors.white,
-            width: 3.0,
+            color: Constants.backgroundColor,
+            width: 1.0,
           ),
         ),
         child: Container(
           height: 91,
           child: Stack(
             children: [
-              videoProject.thumbnail,
+              Obx(() => videoProject.thumbnail),
               Positioned(
                 top: 12,
                 right: 14,
@@ -53,7 +53,8 @@ class ProjectItemWidget extends StatelessWidget {
                 child: Text(
                   videoProject.title.value.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: outlineTextStyle.copyWith(color: Colors.redAccent),
+                  style:
+                      outlineTextStyle.copyWith(color: Constants.primaryColor),
                 ),
               ),
               Positioned(

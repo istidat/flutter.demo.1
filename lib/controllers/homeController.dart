@@ -51,13 +51,13 @@ class HomeController extends GetxController {
           padding: EdgeInsets.only(bottom: adService.adHeight.value),
           child: Obx(() => BottomNavigationBar(
                 currentIndex: pageIndex.value,
-                backgroundColor: Colors.grey[900],
                 type: BottomNavigationBarType.fixed,
                 iconSize: 20.0,
                 selectedFontSize: 10.0,
                 unselectedFontSize: 10.0,
-                selectedItemColor: vividTitleColor,
-                unselectedItemColor: Colors.white,
+                selectedItemColor: Constants.labelColor,
+                unselectedItemColor: Constants.labelColor,
+                backgroundColor: Constants.backgroundColor,
                 items: pages
                     .map((page) => BottomNavigationBarItem(
                           icon: page.icon.value,

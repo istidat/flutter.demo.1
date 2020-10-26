@@ -25,7 +25,7 @@ class AppPage<TController extends GetxController> extends StatelessWidget {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu, color: vividTitleColor),
+              icon: Icon(Icons.menu, color: Constants.labelColor),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
