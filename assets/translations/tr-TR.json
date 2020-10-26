@@ -33,6 +33,7 @@
     "entity.video_item.begin": "Başlangıç",
     "entity.video_item.end": "Bitiş",
     "entity.video_item.path": "Dosya Yolu",
+    "entity.video_item.trimmed": "Kesilmiş Video",
     "entity.video_project.title": "Başlık",
     "entity.video_project.buildDate": "Oluşturulma Tarihi",
     "entity.video_project.thumbnail": "Küçük Resim",

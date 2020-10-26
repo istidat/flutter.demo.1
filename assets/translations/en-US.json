@@ -33,6 +33,7 @@
     "entity.video_item.begin": "Begin",
     "entity.video_item.end": "End",
     "entity.video_item.path": "File Path",
+    "entity.video_item.trimmed": "Trimmed Video",
     "entity.video_project.title": "Title",
     "entity.video_project.buildDate": "Build Date",
     "entity.video_project.thumbnail": "Thumbnail",

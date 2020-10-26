@@ -36,13 +36,11 @@ class DataService {
         },
         onOpen: (db) async {
           if (!kReleaseMode) {
-            // _prevDB = db;
-            // await regenerateDB();
+            // await regenerateDB(db);
           }
         },
         onCreate: (Database db, int version) async {
-          _prevDB = db;
-          await regenerateDB();
+          await regenerateDB(db);
         },
       );
     }
@@ -51,7 +49,7 @@ class DataService {
 
   Future _upgrade(Database db) async {
     _prevDB = db;
-    await regenerateDB(forUpgrade: true);
+    await regenerateDB(db, forUpgrade: true);
   }
 
   Future<void> pragmaForeignKeys({@required bool on}) async {
@@ -59,7 +57,8 @@ class DataService {
     await (db).execute('PRAGMA foreign_keys = $word;');
   }
 
-  Future<void> regenerateDB({bool forUpgrade: false}) async {
+  Future<void> regenerateDB(Database _db, {bool forUpgrade: false}) async {
+    _prevDB = _db;
     await pragmaForeignKeys(on: false);
     for (var gen in _generators) {
       final e = gen();

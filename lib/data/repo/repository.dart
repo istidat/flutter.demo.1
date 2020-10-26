@@ -133,6 +133,7 @@ class Repository<T extends GenericEntity<T>> {
   }
 
   Future<int> update(T entity, {bool digin: false}) async {
+    assert(entity.id.value != 0);
     var c = 0;
     if (digin) {
       for (CollectionInfo<T> collInfo

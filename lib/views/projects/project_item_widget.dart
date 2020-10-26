@@ -9,12 +9,12 @@ class ProjectItemWidget extends StatelessWidget {
 
   ProjectItemWidget(this.videoProject);
   final outlineTextStyle = TextStyle(
-    color: Constants.buttonColor,
+    color: Constants.labelColor,
     fontWeight: FontWeight.bold,
     shadows: [
       BoxShadow(
-        color: Constants.backgroundColor,
-        offset: Offset(1.7, 1.7),
+        color: Constants.primaryColor,
+        offset: Offset(1, 1),
         spreadRadius: 3,
       )
     ],
