@@ -33,7 +33,7 @@ class VideoInfo {
     return vi;
   }
 
-  static of({@required String path}) async {
+  static Future<VideoInfo> of({@required String path}) async {
     return await _generate(path);
   }
 }
