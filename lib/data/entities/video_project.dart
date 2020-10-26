@@ -37,7 +37,9 @@ class VideoProject extends GenericEntity<VideoProject> {
       title: "title.are_you_sure",
       message: "message.video_project_will_remove",
       onApproval: () async {
-        this.videoItems.forEach((vi) async => await vi.deleteVideo());
+        this.videoItems.forEach(
+            (vi) async => await vi.deleteVideo(removeFromParent: false));
+        this.videoItems.clear();
         user.videoProjects.remove(this);
         await DataService.repositoryOf<VideoProject>().delete(this);
       },

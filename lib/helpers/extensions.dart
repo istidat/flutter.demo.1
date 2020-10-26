@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 
 extension StringExtensions on String {
   bool get isInt => int.tryParse(this) != null;
@@ -38,16 +36,6 @@ extension StringExtensions on String {
 
   DateTime toDateTime() => DateTime.tryParse(this);
 
-  Future<String> get thumbnailPath async {
-    final file = File(this);
-    final cacheDir = await getTemporaryDirectory();
-    final int cacheName = file.hashCode;
-    final target = File('${cacheDir.path}/$cacheName');
-    if (target.existsSync()) {
-      target.deleteSync();
-    }
-    return target.path;
-  }
 }
 
 extension NumExtensions on num {
@@ -151,6 +139,12 @@ extension FileExtensions on File {
   Directory get parentDirectory {
     final fileName = path.basename(this.path);
     return Directory(this.path.stripTrailing(fileName).stripTrailing('/'));
+  }
+  String get ext {
+    return this.path.split('/').last.split('.').last;
+  }
+  String get name {
+    return this.path.split('/').last.stripTrailing('.$ext');
   }
 }
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/components/index.dart';
@@ -53,7 +54,8 @@ class VideoItem extends GenericEntity<VideoItem> {
       );
     }
     videoInfo.value = info;
-    await saveVideo(firstTime: true);
+    //await saveVideo(firstTime: true);
+    await saveVideoToFile();
     persisted.value = true;
   }
 
@@ -65,13 +67,24 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<void> deleteVideo() async {
+  Future<File> saveVideoToFile() async {
+    final video = File(path.value);
+    final appDir = await getApplicationDocumentsDirectory();
+    final int cacheName = video.hashCode;
+    final fileName = "${video.name}-$cacheName-${DateTime.now()}.${video.ext}";
+    final File newFile = await video.copy('${appDir.path}/$fileName');
+    return newFile;
+  }
+
+  Future<void> deleteVideo({bool removeFromParent: true}) async {
     final video = File(this.path.value);
     if (video.existsSync()) {
       await video.delete();
     }
-    final videoProject = this.owner as VideoProject;
-    videoProject.videoItems.remove(this);
+    if (removeFromParent) {
+      final videoProject = this.owner as VideoProject;
+      videoProject.videoItems.remove(this);
+    }
     await DataService.repositoryOf<VideoItem>().delete(this);
   }
 

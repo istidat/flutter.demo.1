@@ -65,25 +65,25 @@ class ProjectItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: videoProject.openProject,
                       child: Text(
                         "label.open_project".tr().toUpperCase(),
                         style: outlineTextStyle,
                       ),
+                      onPressed: videoProject.openProject,
                     ),
                     TextButton(
-                      onPressed: () {},
                       child: Text(
                         "label.export_project".tr().toUpperCase(),
                         style: outlineTextStyle,
                       ),
+                      onPressed: () {},
                     ),
                     TextButton(
-                      onPressed: videoProject.removeProject,
                       child: Text(
                         "label.delete_project".tr().toUpperCase(),
                         style: outlineTextStyle,
                       ),
+                      onPressed: videoProject.removeProject,
                     ),
                   ],
                 ),

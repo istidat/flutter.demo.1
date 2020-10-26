@@ -61,16 +61,17 @@ class TrimmerView extends AppPage<User> {
                   },
                 ),
               ),
-              Obx(() => TextButton(
+              Obx(() => FlatButton(
+                    color: Constants.alternateColor,
                     child: videoItem.isPlaying.value
                         ? Icon(
                             Icons.pause,
-                            size: 80.0,
+                            size: 40.0,
                             color: Colors.white,
                           )
                         : Icon(
                             Icons.play_arrow,
-                            size: 80.0,
+                            size: 40.0,
                             color: Colors.white,
                           ),
                     onPressed: () async {

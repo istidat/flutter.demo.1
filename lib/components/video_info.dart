@@ -24,10 +24,19 @@ class VideoInfo {
         vi.fileName = mediaProps['filename'].toString();
         final streams = info.getStreams();
         if (streams != null) {
-          final props1 = streams.elementAt(0).getAllProperties();
-          final props2 = streams.elementAt(1).getAllProperties();
-          vi.width = props1['width'] ?? props2['width'];
-          vi.height = props1['height'] ?? props2['height'];
+          final getIntValue = ({String of}) {
+            int value = 0;
+            for (var stream in streams) {
+              final props = stream.getAllProperties();
+              if (props[of] != null) {
+                value = int.parse(props[of]);
+                break;
+              }
+            }
+            return value;
+          };
+          vi.width = getIntValue(of: 'width');
+          vi.height = getIntValue(of: 'height');
         }
       }
     }
@@ -35,7 +44,7 @@ class VideoInfo {
   }
 
   static void _default(VideoInfo vi) {
-    vi.duration = Duration(seconds: 0);
+    vi.duration = Duration();
     vi.width = Get.context.mediaQueryShortestSide.toInt();
     vi.height = 81;
   }
