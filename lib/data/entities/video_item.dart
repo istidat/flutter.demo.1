@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/components/index.dart';
@@ -34,7 +33,6 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
     var video = File(path.value);
     if (video.existsSync()) {
-      video = await saveVideoToFile();
       final info = await this.info();
       final thumbData = await VideoThumbnail.thumbnailData(
         video: video.path,
@@ -55,6 +53,7 @@ class VideoItem extends GenericEntity<VideoItem> {
         width: Get.context.mediaQueryShortestSide,
       );
     }
+    await saveVideo(firstTime: true);
     thumbnailed.value = true;
   }
 
@@ -64,16 +63,6 @@ class VideoItem extends GenericEntity<VideoItem> {
     } else {
       return VideoInfo();
     }
-  }
-
-  Future<File> saveVideoToFile() async {
-    final video = File(path.value);
-    final appDir = await getApplicationDocumentsDirectory();
-    final fileName = "${video.name}.${video.ext}";
-    path.value = '${appDir.path}/$fileName';
-    final File newFile = await video.copy(path.value);
-    DataService.repositoryOf<VideoItem>().updateColumns(this, ['path']);
-    return newFile;
   }
 
   Future<void> deleteVideo({bool removeFromParent: true}) async {
@@ -107,11 +96,24 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<void> saveVideo({double begin: -1, double end: -1}) async {
+  Future<void> saveVideo(
+      {double begin: -1, double end: -1, bool firstTime: false}) async {
+    if (firstTime) {
+      try {
+        await trimmer.loadVideo(videoFile: File(path.value));
+      } on Exception {
+        return;
+      }
+      this.begin.value = 0.0;
+      this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
+    }
     path.value = await trimmer.saveTrimmedVideo(
-      startValue: begin == -1 ? this.begin.value : begin,
-      endValue: end == -1 ? this.end.value : end,
+      startValue: firstTime || begin == -1 ? this.begin.value : begin,
+      endValue: firstTime || end == -1 ? this.end.value : end,
     );
+    if (firstTime) {
+      DataService.repositoryOf<VideoItem>().update(this);
+    }
   }
 
   @override
