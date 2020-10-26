@@ -176,13 +176,6 @@ class Repository<T extends GenericEntity<T>> {
 
   Future<int> delete(T entity) async {
     var deletedCount = 0;
-    for (var collInfo in entity.tableInfo.collectionInfos ?? []) {
-      var items = collInfo.collectionProp.getter(entity);
-      for (var item in items) {
-        deletedCount += await collInfo.collectionProp.itemRepo.delete(item);
-      }
-    }
-
     deletedCount += await DataService.db.transaction(
       (txn) async => await txn.delete(
         entity.tableInfo.tableName,
@@ -190,6 +183,13 @@ class Repository<T extends GenericEntity<T>> {
         whereArgs: [entity.id.value],
       ),
     );
+
+    for (var collInfo in entity.tableInfo.collectionInfos ?? []) {
+      var items = collInfo.collectionProp.getter(entity);
+      for (var item in items) {
+        deletedCount += await collInfo.collectionProp.itemRepo.delete(item);
+      }
+    }
 
     return deletedCount;
   }

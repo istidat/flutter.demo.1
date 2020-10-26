@@ -37,7 +37,7 @@ class _Form extends StatelessWidget {
           this.titleTranslation,
         ).tr(),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text(
               "alert.cancel",
             ).tr(),

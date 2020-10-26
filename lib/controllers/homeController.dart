@@ -55,7 +55,7 @@ class HomeController extends GetxController {
                 iconSize: 20.0,
                 selectedFontSize: 10.0,
                 unselectedFontSize: 10.0,
-                selectedItemColor: Constants.labelColor,
+                selectedItemColor: Constants.intenseColor,
                 unselectedItemColor: Constants.labelColor,
                 backgroundColor: Constants.backgroundColor,
                 items: pages

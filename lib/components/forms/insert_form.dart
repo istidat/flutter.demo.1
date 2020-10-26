@@ -53,7 +53,7 @@ class _Form<TEntity extends GenericEntity<TEntity>> extends StatelessWidget {
             namedArgs: {"item": "${_entity.tableInfo.repr}"},
           ),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text(
                 "label.save",
               ).tr(),

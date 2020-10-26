@@ -9,12 +9,12 @@ class ProjectItemWidget extends StatelessWidget {
 
   ProjectItemWidget(this.videoProject);
   final outlineTextStyle = TextStyle(
-    color: Constants.labelColor,
+    color: Constants.buttonColor,
     fontWeight: FontWeight.bold,
     shadows: [
       BoxShadow(
-        color: Constants.alternateColor,
-        offset: Offset(1, 1),
+        color: Constants.backgroundColor,
+        offset: Offset(1.7, 1.7),
         spreadRadius: 3,
       )
     ],
@@ -53,8 +53,8 @@ class ProjectItemWidget extends StatelessWidget {
                 child: Text(
                   videoProject.title.value.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style:
-                      outlineTextStyle.copyWith(color: Constants.primaryColor),
+                  style: outlineTextStyle.copyWith(
+                      color: Constants.intenseColor, fontSize: 19),
                 ),
               ),
               Positioned(
@@ -64,21 +64,21 @@ class ProjectItemWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FlatButton(
+                    TextButton(
                       onPressed: videoProject.openProject,
                       child: Text(
                         "label.open_project".tr().toUpperCase(),
                         style: outlineTextStyle,
                       ),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {},
                       child: Text(
                         "label.export_project".tr().toUpperCase(),
                         style: outlineTextStyle,
                       ),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: videoProject.removeProject,
                       child: Text(
                         "label.delete_project".tr().toUpperCase(),

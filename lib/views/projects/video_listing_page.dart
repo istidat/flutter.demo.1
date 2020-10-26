@@ -47,17 +47,17 @@ class VideoListingPage extends AppPage<VideoListingController> {
 
   SpeedDial buildSpeedDial() {
     return SpeedDial(
-      animatedIcon: AnimatedIcons.menu_close,
+      animatedIcon: AnimatedIcons.add_event,
       animatedIconTheme: IconThemeData(size: 22.0),
       child: Icon(Icons.add, color: Colors.white),
-      backgroundColor: Constants.alternateColor,
+      backgroundColor: Constants.backgroundColor,
       elevation: 16.0,
       visible: true,
       curve: Curves.bounceIn,
       overlayOpacity: 0.1,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.movie, color: Constants.labelColor),
+          child: Icon(Icons.video_library, color: Constants.labelColor),
           backgroundColor: Colors.deepOrange,
           onTap: controller.addVideoItem,
           label: 'label.add_from_gallery'.tr(),

@@ -17,7 +17,7 @@ class TrimmerView extends AppPage<User> {
 
   @override
   RxList<Widget> get actions => <Widget>[
-        FlatButton(
+        TextButton(
           onPressed: () {
             videoItem.saveVideo().then((value) {
               UIHelper.snack(
@@ -61,7 +61,7 @@ class TrimmerView extends AppPage<User> {
                   },
                 ),
               ),
-              Obx(() => FlatButton(
+              Obx(() => TextButton(
                     child: videoItem.isPlaying.value
                         ? Icon(
                             Icons.pause,

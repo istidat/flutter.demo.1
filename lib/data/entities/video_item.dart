@@ -59,7 +59,7 @@ class VideoItem extends GenericEntity<VideoItem> {
 
   Future<VideoInfo> info() async {
     if (File(path.value).existsSync()) {
-      return VideoInfo.of(path: path.value);
+      return await VideoInfo.of(path: path.value);
     } else {
       return VideoInfo();
     }
@@ -79,7 +79,11 @@ class VideoItem extends GenericEntity<VideoItem> {
       {EditorPurpose purpose: EditorPurpose.forSpliceEqual}) async {
     final file = File(path.value);
     if (file.existsSync()) {
-      await trimmer.loadVideo(videoFile: file);
+      try {
+        await trimmer.loadVideo(videoFile: file);
+      } on Exception {
+        return;
+      }
       Get.to(TrimmerView(this, purpose));
     } else {
       await UIHelper.alert(
@@ -93,7 +97,11 @@ class VideoItem extends GenericEntity<VideoItem> {
   Future<void> saveVideo(
       {double begin: -1, double end: -1, bool firstTime: false}) async {
     if (firstTime) {
-      await trimmer.loadVideo(videoFile: File(path.value));
+      try {
+        await trimmer.loadVideo(videoFile: File(path.value));
+      } on Exception {
+        return;
+      }
       this.begin.value = 0.0;
       this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
     }

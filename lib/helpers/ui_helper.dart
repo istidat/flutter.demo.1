@@ -153,10 +153,11 @@ class UIHelper {
       AlertDialog(
         title: Text(title).tr(),
         content: Text(message).tr(),
+        backgroundColor: Constants.backgroundColor,
         titleTextStyle:
-            TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            TextStyle(fontWeight: FontWeight.bold, color: Constants.labelColor),
         contentTextStyle:
-            TextStyle(fontWeight: FontWeight.w300, color: Colors.white),
+            TextStyle(fontWeight: FontWeight.w300, color: Constants.labelColor),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
@@ -164,7 +165,7 @@ class UIHelper {
         actions: [
           (multipleChoice
               ? FlatButton(
-                  textColor: Colors.redAccent,
+                  textColor: Colors.red[800],
                   onPressed: () {
                     if (onCancellation != null) {
                       onCancellation();
@@ -175,7 +176,7 @@ class UIHelper {
                 )
               : null),
           FlatButton(
-            textColor: Colors.green,
+            textColor: Colors.green[800],
             onPressed: () {
               if (onApproval != null) {
                 onApproval();

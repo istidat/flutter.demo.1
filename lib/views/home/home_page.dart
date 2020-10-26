@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart' hide Trans;
@@ -14,8 +15,11 @@ class Home extends GetView<HomeController> {
     final customFontTextTheme =
         GoogleFonts.openSansTextTheme(Theme.of(context).textTheme).copyWith(
       button: GoogleFonts.openSans(
-        color: Constants.labelColor,
+        color: Constants.buttonColor,
         textStyle: TextStyle(fontSize: 15),
+      ),
+      caption: GoogleFonts.openSans(
+        textStyle: TextStyle(color: Constants.labelColor),
       ),
       bodyText1: GoogleFonts.openSans(
         textStyle: TextStyle(color: Constants.labelColor),
@@ -33,15 +37,18 @@ class Home extends GetView<HomeController> {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'OpenSans',
-          brightness: Brightness.light,
-          primarySwatch: Constants.primaryColor.material,
-          appBarTheme: AppBarTheme(
-            textTheme: customFontTextTheme,
-            iconTheme: IconThemeData(color: Constants.buttonColor),
-            actionsIconTheme: IconThemeData(color: Constants.buttonColor),
-          ),
-          primaryTextTheme: customFontTextTheme),
+        fontFamily: 'OpenSans',
+        primarySwatch: Constants.primaryColor.material,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: Constants.buttonColor,
+        ),
+        primaryTextTheme: customFontTextTheme,
+        appBarTheme: AppBarTheme(
+          textTheme: customFontTextTheme,
+          iconTheme: IconThemeData(color: Constants.buttonColor),
+          actionsIconTheme: IconThemeData(color: Constants.buttonColor),
+        ),
+      ),
       home: Obx(() => Scaffold(
             appBar: controller.appBar.value,
             floatingActionButton: controller.floatingButton.value != null
