@@ -69,8 +69,7 @@ class VideoItem extends GenericEntity<VideoItem> {
   Future<File> saveVideoToFile() async {
     final video = File(path.value);
     final appDir = await getApplicationDocumentsDirectory();
-    final int cacheName = video.hashCode;
-    final fileName = "${video.name}-$cacheName-${DateTime.now()}.${video.ext}";
+    final fileName = "${video.name}.${video.ext}";
     path.value = '${appDir.path}/$fileName';
     final File newFile = await video.copy(path.value);
     DataService.repositoryOf<VideoItem>().updateColumns(this, ['path']);
