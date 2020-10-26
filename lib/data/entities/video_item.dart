@@ -23,18 +23,19 @@ class VideoItem extends GenericEntity<VideoItem> {
   VideoProject get project => owner as VideoProject;
 
   var isPlaying = false.obs;
-  var persisted = false.obs;
+  var thumbnailed = false.obs;
   final trimmer = Trimmer();
   Rx<Widget> thumbnail = Rx<Widget>();
   Rx<VideoInfo> videoInfo = Rx<VideoInfo>();
 
   Future<void> loadThumbnail() async {
-    if (persisted.value) {
+    if (thumbnailed.value) {
       return;
     }
-    final video = File(path.value);
-    final info = await this.info();
+    var video = File(path.value);
     if (video.existsSync()) {
+      video = await saveVideoToFile();
+      final info = await this.info();
       final thumbData = await VideoThumbnail.thumbnailData(
         video: video.path,
         imageFormat: ImageFormat.PNG,
@@ -46,6 +47,7 @@ class VideoItem extends GenericEntity<VideoItem> {
         fit: BoxFit.cover,
         width: Get.context.mediaQueryShortestSide,
       );
+      videoInfo.value = info;
     } else {
       thumbnail.value = Image.asset(
         'assets/images/widgets/video.png',
@@ -53,10 +55,7 @@ class VideoItem extends GenericEntity<VideoItem> {
         width: Get.context.mediaQueryShortestSide,
       );
     }
-    videoInfo.value = info;
-    //await saveVideo(firstTime: true);
-    await saveVideoToFile();
-    persisted.value = true;
+    thumbnailed.value = true;
   }
 
   Future<VideoInfo> info() async {
@@ -72,7 +71,9 @@ class VideoItem extends GenericEntity<VideoItem> {
     final appDir = await getApplicationDocumentsDirectory();
     final int cacheName = video.hashCode;
     final fileName = "${video.name}-$cacheName-${DateTime.now()}.${video.ext}";
-    final File newFile = await video.copy('${appDir.path}/$fileName');
+    path.value = '${appDir.path}/$fileName';
+    final File newFile = await video.copy(path.value);
+    DataService.repositoryOf<VideoItem>().updateColumns(this, ['path']);
     return newFile;
   }
 
@@ -107,24 +108,11 @@ class VideoItem extends GenericEntity<VideoItem> {
     }
   }
 
-  Future<void> saveVideo(
-      {double begin: -1, double end: -1, bool firstTime: false}) async {
-    if (firstTime) {
-      try {
-        await trimmer.loadVideo(videoFile: File(path.value));
-      } on Exception {
-        return;
-      }
-      this.begin.value = 0.0;
-      this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
-    }
+  Future<void> saveVideo({double begin: -1, double end: -1}) async {
     path.value = await trimmer.saveTrimmedVideo(
-      startValue: firstTime || begin == -1 ? this.begin.value : begin,
-      endValue: firstTime || end == -1 ? this.end.value : end,
+      startValue: begin == -1 ? this.begin.value : begin,
+      endValue: end == -1 ? this.end.value : end,
     );
-    if (firstTime) {
-      DataService.repositoryOf<VideoItem>().update(this);
-    }
   }
 
   @override

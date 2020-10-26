@@ -29,7 +29,7 @@ class VideoInfo {
             for (var stream in streams) {
               final props = stream.getAllProperties();
               if (props[of] != null) {
-                value = int.parse(props[of]);
+                value = props[of];
                 break;
               }
             }

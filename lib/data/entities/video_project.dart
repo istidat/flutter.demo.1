@@ -22,7 +22,7 @@ class VideoProject extends GenericEntity<VideoProject> {
     if (videoItems.isNotEmpty) {
       videoItems.forEach((vi) async => await vi.loadThumbnail());
       final firstVideo = videoItems.first;
-      if (firstVideo.persisted.value) {
+      if (firstVideo.thumbnailed.value) {
         return firstVideo.thumbnail.value;
       }
     }

@@ -40,7 +40,7 @@ class TrimmerView extends AppPage<User> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Obx(() => Visibility(
-                    visible: videoItem.persisted.value,
+                    visible: videoItem.thumbnailed.value,
                     replacement: CircularProgressIndicator(),
                     child: Expanded(
                       child: VideoViewer(borderColor: Colors.white),

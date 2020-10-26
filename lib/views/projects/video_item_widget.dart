@@ -52,7 +52,7 @@ class VideoItemWidget extends StatelessWidget {
   Card _buildCard() {
     final double cardHeight = 81;
     return Card(
-      child: Obx(() => !videoItem.persisted.value
+      child: Obx(() => !videoItem.thumbnailed.value
           ? Container(
               height: cardHeight,
               child: Center(child: CircularProgressIndicator()),
