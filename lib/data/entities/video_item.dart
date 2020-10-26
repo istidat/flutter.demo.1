@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
-import 'package:flutter_ffmpeg/media_information.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:video_trimmer/video_trimmer.dart';
+import 'package:videotor/components/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
 import 'package:videotor/data/metadata/index.dart';
@@ -16,33 +15,6 @@ enum EditorPurpose {
   forSpliceEqual,
 }
 
-class VideoInfo {
-  Duration duration;
-  int width;
-  int height;
-  String fileName;
-
-  VideoInfo({MediaInformation info}) {
-    if (info != null) {
-      final mediaProps = info.getMediaProperties();
-      this.duration = Duration(
-          seconds: double.parse(mediaProps['duration'].toString()).floor());
-      this.fileName = mediaProps['filename'].toString();
-      final streams = info.getStreams();
-      if (streams != null) {
-        final props1 = streams.elementAt(0).getAllProperties();
-        final props2 = streams.elementAt(1).getAllProperties();
-        this.width = props1['width'] ?? props2['width'];
-        this.height = props1['height'] ?? props2['height'];
-      }
-    } else {
-      this.duration = Duration(seconds: 0);
-      this.width = Get.context.mediaQueryShortestSide.toInt();
-      this.height = 81;
-    }
-  }
-}
-
 class VideoItem extends GenericEntity<VideoItem> {
   var begin = 0.0.obs;
   var end = 0.0.obs;
@@ -52,7 +24,6 @@ class VideoItem extends GenericEntity<VideoItem> {
   var isPlaying = false.obs;
   var persisted = false.obs;
   final trimmer = Trimmer();
-  final FlutterFFprobe _ffprobe = new FlutterFFprobe();
   Rx<Widget> thumbnail = Rx<Widget>();
   Rx<VideoInfo> videoInfo = Rx<VideoInfo>();
 
@@ -88,7 +59,7 @@ class VideoItem extends GenericEntity<VideoItem> {
 
   Future<VideoInfo> info() async {
     if (File(path.value).existsSync()) {
-      return VideoInfo(info: await _ffprobe.getMediaInformation(path.value));
+      return VideoInfo.of(path: path.value);
     } else {
       return VideoInfo();
     }
