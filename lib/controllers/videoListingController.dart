@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
@@ -41,7 +41,8 @@ class VideoListingController extends GetxController {
     return newPath;
   }
 
-  Future<File> pickVideoFile(ImageSource source) async {
-    return await ImagePicker.pickVideo(source: source);
+  Future<PickedFile> pickVideoFile(ImageSource source) async {
+    final picker = ImagePicker();
+    return await picker.getVideo(source: source);
   }
 }
