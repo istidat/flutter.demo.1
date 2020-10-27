@@ -26,7 +26,7 @@ class VideoItemWidget extends StatelessWidget {
     return Card(
       key: ValueKey(videoItem.id),
       color: Constants.backgroundColor,
-      margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         side: BorderSide(

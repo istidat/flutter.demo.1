@@ -45,7 +45,7 @@ class VideoListingPage extends AppPage<VideoListingController> {
     ));
   }
 
-  SpeedDial buildSpeedDial() {
+  Widget buildSpeedDial() {
     return SpeedDial(
       animatedIcon: AnimatedIcons.add_event,
       animatedIconTheme: IconThemeData(size: 22.0),

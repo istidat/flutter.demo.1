@@ -51,6 +51,5 @@ flutter:
     - assets/translations/
     - assets/images/
     - assets/images/app/
-    - assets/samples/
     - assets/images/widgets/
     - assets/fonts/OpenSans/

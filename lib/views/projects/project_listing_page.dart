@@ -24,6 +24,7 @@ class ProjectListingPage extends AppPage<ProjectListingController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.loadAllThumbnails();
     return Center(
       child: Obx(() => controller.videoProjects.length == 0
           ? Center(

@@ -19,7 +19,7 @@ class VideoItem extends GenericEntity<VideoItem> {
   var begin = 0.0.obs;
   var end = 0.0.obs;
   var path = "".obs;
-  var trimmed = "".obs;
+  var persisted = 0.obs;
   VideoProject get project => owner as VideoProject;
 
   var isPlaying = false.obs;
@@ -41,21 +41,15 @@ class VideoItem extends GenericEntity<VideoItem> {
         maxWidth: Get.context.mediaQueryShortestSide.toInt(),
         quality: 100,
       );
-      if (thumbData == null) {
-        thumbData = await VideoThumbnail.thumbnailData(
-          video: trimmed.value,
-          imageFormat: ImageFormat.PNG,
-          maxWidth: Get.context.mediaQueryShortestSide.toInt(),
-          quality: 100,
-        );
-      }
       thumbnail.value = Image.memory(
         thumbData,
         fit: BoxFit.cover,
         width: Get.context.mediaQueryShortestSide,
       );
       videoInfo.value = info;
-      await saveVideo(firstTime: true);
+      if (persisted.value == 0) {
+        await saveVideo(firstTime: true);
+      }
     } else {
       thumbnail.value = Image.asset(
         'assets/images/widgets/video.png',
@@ -78,15 +72,12 @@ class VideoItem extends GenericEntity<VideoItem> {
       this.begin.value = 0.0;
       this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
     }
-    trimmed.value = await trimmer.saveTrimmedVideo(
+    path.value = await trimmer.saveTrimmedVideo(
       startValue: firstTime || begin == -1 ? this.begin.value : begin,
       endValue: firstTime || end == -1 ? this.end.value : end,
     );
-    // if (video.existsSync()) {
-    //   await video.delete();
-    // }
     if (firstTime) {
-      print('firstTime: ${this.id.value}');
+      persisted.value = 1;
       DataService.repositoryOf<VideoItem>().update(this);
     }
   }
@@ -168,12 +159,13 @@ class VideoItem extends GenericEntity<VideoItem> {
             ),
           ),
           FieldInfo(
-            name: "trimmed",
-            translation: "entity.video_item.trimmed",
+            name: "persisted",
+            translation: "entity.video_item.persisted",
+            dataType: DataType.int,
             displayOnForm: false,
             prop: Prop(
-              getter: (e) => e.trimmed.value,
-              setter: (e, val) => e.trimmed.value = val,
+              getter: (e) => e.persisted.value,
+              setter: (e, val) => e.persisted.value = val,
             ),
           ),
         ],
