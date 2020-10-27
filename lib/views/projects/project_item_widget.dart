@@ -8,12 +8,12 @@ class ProjectItemWidget extends StatelessWidget {
   final VideoProject videoProject;
 
   ProjectItemWidget(this.videoProject);
-  final outlineTextStyle = ([Color shadow = Constants.labelColor]) => TextStyle(
-        color: Constants.primaryColor,
+  final outlineTextStyle = ([bool darkColorSwitch=true]) => TextStyle(
+        color: Constants.darkColorSwitch(darkColorSwitch),
         fontWeight: FontWeight.bold,
         shadows: [
           BoxShadow(
-            color: shadow,
+            color: Constants.darkColorSwitch(!darkColorSwitch),
             offset: Offset(1, 1),
             spreadRadius: 3,
           )
@@ -46,16 +46,14 @@ class ProjectItemWidget extends StatelessWidget {
                     'd MMMM yyyy HH:mm',
                     EasyLocalization.of(context).locale.toString(),
                   ).format(videoProject.buildDate.value.toDateTime()),
-                  style: outlineTextStyle().copyWith(fontSize: 11),
+                  style: outlineTextStyle(videoProject.videoItems.isEmpty).copyWith(fontSize: 11),
                 ),
               ),
               Center(
                 child: Text(
                   videoProject.title.value.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: outlineTextStyle(videoProject.videoItems.isNotEmpty
-                          ? Constants.labelColor
-                          : Constants.primaryColor)
+                  style: outlineTextStyle()
                       .copyWith(color: Constants.intenseColor),
                 ),
               ),
@@ -69,21 +67,24 @@ class ProjectItemWidget extends StatelessWidget {
                     TextButton(
                       child: Text(
                         "label.open_project".tr().toUpperCase(),
-                        style: outlineTextStyle(),
+                        style: outlineTextStyle(
+                            videoProject.videoItems.isEmpty),
                       ),
                       onPressed: videoProject.openProject,
                     ),
                     TextButton(
                       child: Text(
                         "label.export_project".tr().toUpperCase(),
-                        style: outlineTextStyle(),
+                        style: outlineTextStyle(
+                            videoProject.videoItems.isEmpty),
                       ),
                       onPressed: () {},
                     ),
                     TextButton(
                       child: Text(
                         "label.delete_project".tr().toUpperCase(),
-                        style: outlineTextStyle(),
+                        style: outlineTextStyle(
+                            videoProject.videoItems.isEmpty),
                       ),
                       onPressed: videoProject.removeProject,
                     ),

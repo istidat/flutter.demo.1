@@ -19,7 +19,7 @@ class TrimmerView extends AppPage<User> {
   RxList<Widget> get actions => <Widget>[
         TextButton(
           onPressed: () {
-            videoItem.saveVideo().then((value) {
+            videoItem.loadTrimVideo().then((value) {
               UIHelper.snack(
                 title: 'title.process_completed'.tr(),
                 message: 'message.video_save_success'.tr(),
@@ -62,7 +62,7 @@ class TrimmerView extends AppPage<User> {
                 ),
               ),
               Obx(() => FlatButton(
-                    color: Constants.alternateColor,
+                    color: Constants.lightColor,
                     child: videoItem.isPlaying.value
                         ? Icon(
                             Icons.pause,

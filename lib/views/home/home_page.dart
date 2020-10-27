@@ -38,7 +38,7 @@ class Home extends GetView<HomeController> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'OpenSans',
-        primarySwatch: Constants.primaryColor.material,
+        primarySwatch: Constants.darkColor.material,
         colorScheme: Theme.of(context).colorScheme.copyWith(
           primary: Constants.buttonColor,
         ),

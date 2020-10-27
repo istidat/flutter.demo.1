@@ -30,7 +30,7 @@ class VideoItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         side: BorderSide(
-          color: Constants.alternateColor,
+          color: Constants.lightColor,
           width: 1.0,
         ),
       ),

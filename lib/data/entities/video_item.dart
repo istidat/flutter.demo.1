@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 import 'package:videotor/components/index.dart';
@@ -47,9 +48,6 @@ class VideoItem extends GenericEntity<VideoItem> {
         width: Get.context.mediaQueryShortestSide,
       );
       videoInfo.value = info;
-      if (persisted.value == 0) {
-        await saveVideo(firstTime: true);
-      }
     } else {
       thumbnail.value = Image.asset(
         'assets/images/widgets/video.png',
@@ -60,26 +58,18 @@ class VideoItem extends GenericEntity<VideoItem> {
     thumbnailed.value = true;
   }
 
-  Future<void> saveVideo(
-      {double begin: -1, double end: -1, bool firstTime: false}) async {
+  Future<void> loadTrimVideo() async {
     final video = File(path.value);
-    if (firstTime) {
-      try {
-        await trimmer.loadVideo(videoFile: video);
-      } on Exception {
-        return;
-      }
-      this.begin.value = 0.0;
-      this.end.value = videoInfo.value.duration.inMilliseconds.toDouble();
+    try {
+      await trimmer.loadVideo(videoFile: video);
+    } on Exception {
+      return;
     }
     path.value = await trimmer.saveTrimmedVideo(
-      startValue: firstTime || begin == -1 ? this.begin.value : begin,
-      endValue: firstTime || end == -1 ? this.end.value : end,
+      startValue: this.begin.value,
+      endValue: this.end.value,
     );
-    if (firstTime) {
-      persisted.value = 1;
-      DataService.repositoryOf<VideoItem>().update(this);
-    }
+    DataService.repositoryOf<VideoItem>().update(this);
   }
 
   Future<VideoInfo> info() async {
