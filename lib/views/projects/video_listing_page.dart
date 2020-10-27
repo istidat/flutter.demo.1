@@ -3,7 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:videotor/controllers/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';

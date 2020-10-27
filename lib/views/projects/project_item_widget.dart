@@ -8,7 +8,7 @@ class ProjectItemWidget extends StatelessWidget {
   final VideoProject videoProject;
 
   ProjectItemWidget(this.videoProject);
-  final outlineTextStyle = ([bool darkColorSwitch=true]) => TextStyle(
+  final outlineTextStyle = ([bool darkColorSwitch = true]) => TextStyle(
         color: Constants.darkColorSwitch(darkColorSwitch),
         fontWeight: FontWeight.bold,
         shadows: [
@@ -41,21 +41,22 @@ class ProjectItemWidget extends StatelessWidget {
               Positioned(
                 top: 12,
                 right: 14,
-                child: Text(
-                  DateFormat(
-                    'd MMMM yyyy HH:mm',
-                    EasyLocalization.of(context).locale.toString(),
-                  ).format(videoProject.buildDate.value.toDateTime()),
-                  style: outlineTextStyle(videoProject.videoItems.isEmpty).copyWith(fontSize: 11),
-                ),
+                child: Obx(() => Text(
+                      DateFormat(
+                        'd MMMM yyyy HH:mm',
+                        EasyLocalization.of(context).locale.toString(),
+                      ).format(videoProject.buildDate.value.toDateTime()),
+                      style: outlineTextStyle(videoProject.videoItems.isEmpty)
+                          .copyWith(fontSize: 11),
+                    )),
               ),
               Center(
-                child: Text(
-                  videoProject.title.value.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: outlineTextStyle()
-                      .copyWith(color: Constants.intenseColor),
-                ),
+                child: Obx(() => Text(
+                      videoProject.title.value.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: outlineTextStyle()
+                          .copyWith(color: Constants.intenseColor),
+                    )),
               ),
               Positioned(
                 bottom: 0,
@@ -65,27 +66,27 @@ class ProjectItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      child: Text(
-                        "label.open_project".tr().toUpperCase(),
-                        style: outlineTextStyle(
-                            videoProject.videoItems.isEmpty),
-                      ),
+                      child: Obx(() => Text(
+                            "label.open_project".tr().toUpperCase(),
+                            style: outlineTextStyle(
+                                videoProject.videoItems.isEmpty),
+                          )),
                       onPressed: videoProject.openProject,
                     ),
                     TextButton(
-                      child: Text(
-                        "label.export_project".tr().toUpperCase(),
-                        style: outlineTextStyle(
-                            videoProject.videoItems.isEmpty),
-                      ),
+                      child: Obx(() => Text(
+                            "label.export_project".tr().toUpperCase(),
+                            style: outlineTextStyle(
+                                videoProject.videoItems.isEmpty),
+                          )),
                       onPressed: () {},
                     ),
                     TextButton(
-                      child: Text(
-                        "label.delete_project".tr().toUpperCase(),
-                        style: outlineTextStyle(
-                            videoProject.videoItems.isEmpty),
-                      ),
+                      child: Obx(() => Text(
+                            "label.delete_project".tr().toUpperCase(),
+                            style: outlineTextStyle(
+                                videoProject.videoItems.isEmpty),
+                          )),
                       onPressed: videoProject.removeProject,
                     ),
                   ],
