@@ -22,9 +22,9 @@ dependencies:
   in_app_purchase: ^0.3.4+15
   settings_ui: ^0.4.0
   vibration: ^1.7.1
-  image_picker: ^0.6.7+12
   flutter_speed_dial: ^1.2.5
   video_trimmer: ^0.3.2
+  file_picker: ^2.0.11
   
 dev_dependencies:
   flutter_test:
