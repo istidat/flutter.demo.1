@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/services/index.dart';
@@ -14,9 +15,8 @@ class VideoListingController extends GetxController {
       ..videoItems.forEach((vi) async => await vi.loadThumbnail());
   }
 
-  Future<void> addAssets() async {
-    final videos = await _pickVideos();
-    for (var video in videos) {
+  Future<void> pickVideo({ImageSource from: ImageSource.gallery}) async {
+    final save = (File video) async {
       final newPath = await _saveAsset(video);
       final formed = VideoItem()
         ..path.value = newPath
@@ -27,6 +27,16 @@ class VideoListingController extends GetxController {
       if (inserted != null) {
         this.videoProject.videoItems.add(inserted..loadThumbnail());
       }
+    };
+    if (from == ImageSource.gallery) {
+      final videos = await _pickVideos();
+      for (var video in videos) {
+        await save(video);
+      }
+    } else {
+      final pickedVideo =
+          await ImagePicker().getVideo(source: ImageSource.camera);
+      await save(File(pickedVideo.path));
     }
   }
 

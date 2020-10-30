@@ -55,9 +55,9 @@ PODS:
     - nanopb (~> 1.30906.0)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
   - Flutter (1.0.0)
-  - flutter_ffmpeg/full-gpl (0.3.0):
+  - flutter_ffmpeg/full-gpl-lts (0.3.0):
     - Flutter
-    - mobile-ffmpeg-full-gpl (= 4.4)
+    - mobile-ffmpeg-full-gpl (= 4.4.LTS)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -101,7 +101,7 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - mobile-ffmpeg-full-gpl (4.4)
+  - mobile-ffmpeg-full-gpl (4.4.LTS)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -134,7 +134,7 @@ DEPENDENCIES:
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
-  - flutter_ffmpeg/full-gpl (from `.symlinks/plugins/flutter_ffmpeg/ios`)
+  - flutter_ffmpeg/full-gpl-lts (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - share_extend (from `.symlinks/plugins/share_extend/ios`)
@@ -213,7 +213,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  mobile-ffmpeg-full-gpl: 77de728206f08f30c70f530b18abb4e8f6413eb6
+  mobile-ffmpeg-full-gpl: 9d7a8ec95457e39f9c1efe14b848f41798efa684
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
@@ -226,6 +226,6 @@ SPEC CHECKSUMS:
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
 
-PODFILE CHECKSUM: a2f975b2538f965c2984a418b5bad5cbf099fb0a
+PODFILE CHECKSUM: 94a3c12fb867f27d3cac5ab5b86639160eecf311
 
 COCOAPODS: 1.10.0

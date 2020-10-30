@@ -106,6 +106,7 @@
     "label.export_project": "Paylaş",
     "label.delete_project": "Sil",
     "label.add_from_gallery": "Galeriden",
+    "label.add_from_camera": "Kameradan",
     "label.more": "Dahası",
     "tab.video_projects": "Projeler",
     "percentage": "%{}",

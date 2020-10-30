@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:videotor/controllers/index.dart';
 import 'package:videotor/data/entities/index.dart';
 import 'package:videotor/helpers/index.dart';
@@ -58,13 +59,24 @@ class VideoListingPage extends AppPage<VideoListingController> {
         SpeedDialChild(
           child: Icon(Icons.video_library, color: Constants.labelColor),
           backgroundColor: Colors.deepOrange,
-          onTap: controller.addAssets,
+          onTap: controller.pickVideo,
           label: 'label.add_from_gallery'.tr(),
           labelStyle: TextStyle(
             fontWeight: FontWeight.w500,
             color: Constants.labelColor,
           ),
           labelBackgroundColor: Colors.deepOrangeAccent,
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.camera, color: Constants.labelColor),
+          backgroundColor: Colors.green,
+          onTap: () => controller.pickVideo(from: ImageSource.camera),
+          label: 'label.add_from_camera'.tr(),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Constants.labelColor,
+          ),
+          labelBackgroundColor: Colors.green,
         ),
       ],
     );

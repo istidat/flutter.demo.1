@@ -25,6 +25,7 @@ dependencies:
   flutter_speed_dial: ^1.2.5
   video_trimmer: ^0.3.2
   file_picker: ^2.0.11
+  image_picker: ^0.6.7+12
   
 dev_dependencies:
   flutter_test:
