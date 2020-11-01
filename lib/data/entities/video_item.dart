@@ -32,9 +32,10 @@ class VideoItem extends GenericEntity<VideoItem> {
     if (thumbnailed.value) {
       return;
     }
+    print(path.value);
     var video = File(path.value);
     if (video.existsSync()) {
-      final info = await this.info();
+      videoInfo.value = await this.info();
       var thumbData = await VideoThumbnail.thumbnailData(
         video: video.path,
         imageFormat: ImageFormat.PNG,
@@ -46,7 +47,7 @@ class VideoItem extends GenericEntity<VideoItem> {
         fit: BoxFit.cover,
         width: Get.context.mediaQueryShortestSide,
       );
-      videoInfo.value = info;
+      thumbnailed.value = true;
     } else {
       thumbnail.value = Image.asset(
         'assets/images/widgets/video.png',
@@ -54,7 +55,6 @@ class VideoItem extends GenericEntity<VideoItem> {
         width: Get.context.mediaQueryShortestSide,
       );
     }
-    thumbnailed.value = true;
   }
 
   Future<void> loadTrimVideo() async {

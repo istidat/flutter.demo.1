@@ -50,7 +50,10 @@ class ProjectItemWidget extends StatelessWidget {
                           .copyWith(fontSize: 11),
                     )),
               ),
-              Center(
+              Positioned(
+                top: 29,
+                right: 0,
+                left: 0,
                 child: Obx(() => Text(
                       videoProject.title.value.toUpperCase(),
                       textAlign: TextAlign.center,

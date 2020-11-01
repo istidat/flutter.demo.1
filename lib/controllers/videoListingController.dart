@@ -17,7 +17,7 @@ class VideoListingController extends GetxController {
 
   Future<void> pickVideo({ImageSource from: ImageSource.gallery}) async {
     final save = (File video) async {
-      final newPath = await _saveAsset(video);
+      final newPath = await _save(video);
       final formed = VideoItem()
         ..path.value = newPath
         ..persisted.value = 1
@@ -40,19 +40,19 @@ class VideoListingController extends GetxController {
     }
   }
 
-  Future<String> _saveAsset(File video) async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final newDir = Directory("${appDir.path}/videos/raw");
+  Future<String> _save(File video) async {
+    final parentDir = Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    final newDir = Directory("${parentDir.path}/videos/raw");
     if (!newDir.existsSync()) {
       await newDir.create(recursive: true);
     }
     final newPath = "${newDir.path}/${basename(video.path)}";
-    final mediaFile = File(newPath);
-    if (mediaFile.existsSync()) {
-      await mediaFile.delete();
-    }
-    await video.copy(newPath);
-    return newPath;
+    final newFile = await video.copy(newPath);
+    print(newPath);
+    await video.delete();
+    return newFile.path;
   }
 
   Future<List<File>> _pickVideos() async {
